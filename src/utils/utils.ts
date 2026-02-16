@@ -1,7 +1,7 @@
 const MAX_RATING = 5;
 const PERCENT_PER_STAR = 20;
 
-export function getRandomInteger(minValue: number, maxValue: number) {
+export function getRandomInteger(minValue: number, maxValue: number): number {
   const lower = Math.ceil(Math.min(minValue, maxValue));
   const upper = Math.floor(Math.max(minValue, maxValue));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -23,8 +23,6 @@ export function formatDateForTime(iso: string, locale: string) {
   return { dateTime, text };
 }
 
-export function getRating(rating: number) {
+export function getRating(rating: number): string {
   return `${Math.max(0, Math.min(MAX_RATING, Number(rating) || 0)) * PERCENT_PER_STAR}%`;
 }
-
-
