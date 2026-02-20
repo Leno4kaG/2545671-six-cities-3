@@ -3,11 +3,14 @@ import NavTabs from '../components/main-components/nav-tabs';
 import Sort from '../components/main-components/sort';
 import PlaceCard from '../components/place-card';
 
+import { Helmet } from 'react-helmet-async';
+
 import mockOffers from '../mock/mock-offers';
 
 function Main() {
   return (
     <div className="page page--gray page--main">
+      <Helmet><title>6 cities</title></Helmet>
       <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>

@@ -6,11 +6,14 @@ import OfferReviews from '../components/offers-components/offer-reviews';
 import NearPlaces from '../components/offers-components/near-places';
 import InsideAmenitiesItem from '../components/offers-components/inside-amenities-item';
 
+import { Helmet } from 'react-helmet-async';
+
 import mockOffers from '../mock/mock-offers';
 
 function Offer() {
   return (
     <div className="page">
+      <Helmet><title>6 cities: offer</title></Helmet>
       <Header />
       <main className="page__main page__main--offer" data-id={mockOffers[0].id}>
         <section className="offer">

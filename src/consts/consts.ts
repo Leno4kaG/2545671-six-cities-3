@@ -58,3 +58,17 @@ export const CITIES: City[] = [
   }
 ];
 export const PLACES_SORTING: string[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+
+export enum AppRoute {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id',
+  Error = '*'
+}
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}

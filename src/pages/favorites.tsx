@@ -3,9 +3,12 @@ import Footer from '../components/footer';
 import PlaceCard from '../components/place-card';
 import mockOffers from '../mock/mock-offers';
 
+import { Helmet } from 'react-helmet-async';
+
 function Favorites() {
   return (
     <div className="page">
+      <Helmet><title>6 cities: favorites</title></Helmet>
       <Header />
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
