@@ -1,6 +1,15 @@
-import { OfferProps } from '../../types';
+import { Offer } from '../../types';
+import { getRating } from '../../utils/utils';
 
-function OfferDetails({ title, isPremium, rating, type, bedrooms, maxAdults, price }: OfferProps) {
+type OfferDetails = {
+  data: Offer;
+};
+
+function OfferDetails({ data }: OfferDetails) {
+  const { title, isPremium, rating, type, bedrooms, maxAdults, price } = data;
+
+  const newRating = getRating(rating);
+
   return (
     <>
       {isPremium && (
@@ -20,7 +29,7 @@ function OfferDetails({ title, isPremium, rating, type, bedrooms, maxAdults, pri
       </div>
       <div className="offer__rating rating">
         <div className="offer__stars rating__stars">
-          <span style={{ width: '80%' }}></span>
+          <span style={{ width: newRating }}></span>
           <span className="visually-hidden">Rating</span>
         </div>
         <span className="offer__rating-value rating__value">{rating}</span>

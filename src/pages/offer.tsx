@@ -4,13 +4,16 @@ import OfferDetails from '../components/offers-components/offer-details';
 import OfferHost from '../components/offers-components/offer-host';
 import OfferReviews from '../components/offers-components/offer-reviews';
 import NearPlaces from '../components/offers-components/near-places';
-import InsideItem from '../components/offers-components/inside-item';
+import InsideAmenitiesItem from '../components/offers-components/inside-amenities-item';
+
+import { Helmet } from 'react-helmet-async';
 
 import mockOffers from '../mock/mock-offers';
 
-function Offers() {
+function Offer() {
   return (
     <div className="page">
+      <Helmet><title>6 cities: offer</title></Helmet>
       <Header />
       <main className="page__main page__main--offer" data-id={mockOffers[0].id}>
         <section className="offer">
@@ -22,24 +25,16 @@ function Offers() {
           <div className="offer__container container">
             <div className="offer__wrapper">
               <OfferDetails
-                title={mockOffers[0].title}
-                isPremium={mockOffers[0].isPremium}
-                rating={mockOffers[0].rating}
-                type={mockOffers[0].type}
-                bedrooms={mockOffers[0].bedrooms}
-                maxAdults={mockOffers[0].maxAdults}
-                price={mockOffers[0].price}
+                data={mockOffers[0]}
               />
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
-                <InsideItem
-                  goods={mockOffers[0].goods}
+                <InsideAmenitiesItem
+                  services={mockOffers[0].goods}
                 />
               </div>
               <OfferHost
-                name={mockOffers[0].host.name}
-                avatarUrl={mockOffers[0].host.avatarUrl}
-                isPro={mockOffers[0].host.isPro}
+                host={mockOffers[0].host}
               />
               <OfferReviews />
             </div>
@@ -54,4 +49,4 @@ function Offers() {
   );
 }
 
-export default Offers;
+export default Offer;

@@ -1,10 +1,14 @@
-type HostProps = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
+type Host = {
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  }
 }
 
-function OfferHost({ name, avatarUrl, isPro }: HostProps): JSX.Element {
+function OfferHost({ host }: Host): JSX.Element {
+  const { avatarUrl, name, isPro } = host;
+
   return (
     <div className="offer__host">
       <h2 className="offer__host-title">Meet the host</h2>
