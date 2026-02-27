@@ -1,15 +1,26 @@
-import { CITIES } from '../../consts/consts';
+import { Offer } from '../../types';
 
-function LocationsList() {
+import { Link } from 'react-router-dom';
+
+type CityProps = {
+  cities: Offer[];
+  activeName: string;
+}
+
+function LocationsList({ cities, activeName }: CityProps): JSX.Element {
   return (
     <ul className="locations__list tabs__list">
-      {CITIES.map((city) => (
-        <li className="locations__item" key={city.name}>
-          <a className="locations__item-link tabs__item" href="#">
-            <span>{city.name}</span>
-          </a>
+      {cities.map((offer) => (
+        <li className="locations__item" key={offer.city.name}>
+          <Link
+            className={`locations__item-link tabs__item
+            ${activeName === offer.city.name ? 'tabs__item--active' : ''} `}
+            to='#'
+          >
+            <span>{offer.city.name}</span>
+          </Link>
         </li>))}
-    </ul>
+    </ul >
   );
 }
 

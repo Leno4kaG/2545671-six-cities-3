@@ -4,9 +4,13 @@ type OfferGalleryProps = {
 
 function OfferGallery({ images }: OfferGalleryProps): JSX.Element {
   return (
-    <div className="offer__image-wrapper">
-      {images.map((src) => (<img className="offer__image" key={src} src={src} alt="Photo studio" />))}
-    </div>
+    <>
+      {images.map((src) => (
+        <div className="offer__image-wrapper" key={src}>
+          <img className="offer__image" src={src} alt="Photo studio" />
+        </div>
+      ))}
+    </>
   );
 }
 

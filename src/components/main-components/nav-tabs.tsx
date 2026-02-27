@@ -1,10 +1,16 @@
 import LocationsList from './locations-list';
+import { Offer } from '../../types';
+import { DEFAULT_TYPE } from '../../consts/consts';
 
-function NavTabs() {
+type CityProps = {
+  cities: Offer[];
+}
+
+function NavTabs({ cities }: CityProps): JSX.Element {
   return (
     <div className="tabs">
       <section className="locations container">
-        <LocationsList />
+        <LocationsList cities={cities} activeName={DEFAULT_TYPE} />
       </section>
     </div>
   );

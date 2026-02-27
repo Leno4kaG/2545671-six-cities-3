@@ -1,6 +1,8 @@
 import { Offer } from '../types';
 import { getRating } from '../utils/utils';
 
+import { Link } from 'react-router-dom';
+
 const configCard = {
   cities: {
     imageHeight: 200,
@@ -19,22 +21,31 @@ const configCard = {
 type PlaceCard = {
   variant: 'cities' | 'favorites' | 'near-places';
   data: Offer;
+  handleHoverPlaceCard?: (offer?: Offer) => void;
 }
 
-function PlaceCard({ data, variant }: PlaceCard): JSX.Element {
+function PlaceCard({ data, variant, handleHoverPlaceCard }: PlaceCard): JSX.Element {
   const newRating = getRating(data.rating);
+  const handleMouseEnter = () => handleHoverPlaceCard?.(data);
+  const handleMouseLeave = () => handleHoverPlaceCard?.();
 
   return (
-    <article className={`${variant}__card place-card`} data-id={data.id}>
+    <article
+      className={`${variant}__card place-card `}
+      data-id={data.id}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+
+    >
       {data.isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
         </div>
       )}
       <div className={`${variant}__image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`offer/${data.id}`}>
           <img className="place-card__image" src={data.previewImage} width={configCard[variant].imageWidth} height={configCard[variant].imageHeight} alt={data.title} />
-        </a>
+        </Link>
       </div>
       <div className={`place-card__info ${variant === 'favorites' ? 'favorites-card__info' : ''}`}>
         <div className="place-card__price-wrapper">
@@ -56,7 +67,7 @@ function PlaceCard({ data, variant }: PlaceCard): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{data.title}</a>
+          <Link to={`offer/${data.id}`}>{data.title}</Link>
         </h2>
         <p className="place-card__type">{data.type}</p>
       </div >
