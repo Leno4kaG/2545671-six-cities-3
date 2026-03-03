@@ -1,3 +1,18 @@
+export type THost = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type TCity = {
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+};
+
 export type Offer = {
   id: string;
   title: string;
@@ -12,11 +27,7 @@ export type Offer = {
   bedrooms: number;
   goods: string[];
   maxAdults: number;
-  //name: string;
-  // location: {
-  //  latitude: number;
-  //  longitude: number;
-  //  zoom: number;
-  // };
+  host: THost;
+  city: TCity;
 };
 

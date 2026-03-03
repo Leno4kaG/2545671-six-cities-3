@@ -1,11 +1,18 @@
 import Header from '../components/header';
 import Footer from '../components/footer';
 import PlaceCard from '../components/place-card';
-import mockOffers from '../mock/mock-offers';
+
+import { Offer } from '../types';
 
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 
-function Favorites() {
+type FavoritesProps = {
+  offers: Offer[];
+};
+
+function Favorites({ offers }: FavoritesProps): JSX.Element {
+
   return (
     <div className="page">
       <Helmet><title>6 cities: favorites</title></Helmet>
@@ -18,13 +25,13 @@ function Favorites() {
               <li className="favorites__locations-items">
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Amsterdam</span>
-                    </a>
+                    <Link className="locations__item-link" to="#">
+                      <span>{offers[0].city.name} </span>
+                    </Link>
                   </div>
                 </div>
                 <div className="favorites__places">
-                  {mockOffers.map((card) => (
+                  {offers.map((card) => (
                     <PlaceCard
                       key={card.id}
                       data={card}
