@@ -1,4 +1,4 @@
-import { Offer } from '../../types';
+import { Offer } from '../../types/offer';
 import { getRating } from '../../utils/utils';
 
 type OfferDetails = {

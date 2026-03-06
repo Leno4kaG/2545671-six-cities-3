@@ -1,4 +1,4 @@
-import { Offer } from '../../types';
+import { Offer } from '../../types/offer';
 
 type OfferHostProps = Pick<Offer, 'host' | 'description'>;
 

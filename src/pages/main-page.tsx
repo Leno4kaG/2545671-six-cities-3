@@ -7,7 +7,7 @@ import Map from '../components/map/map';
 import { Helmet } from 'react-helmet-async';
 import { useState, useMemo } from 'react';
 
-import { Offer, TCity } from '../types';
+import { Offer, TCity } from '../types/offer';
 import { getRandomCards } from '../utils/utils';
 
 

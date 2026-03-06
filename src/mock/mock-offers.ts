@@ -1,5 +1,5 @@
 import { getRandomInteger } from '../utils/utils';
-import { Offer } from '../types';
+import { Offer } from '../types/offer';
 
 const mockOffers: Offer[] = [
   {

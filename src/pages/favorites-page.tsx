@@ -2,7 +2,7 @@ import Header from '../components/header';
 import Footer from '../components/footer';
 import PlaceCard from '../components/place-card';
 
-import { Offer } from '../types';
+import { Offer } from '../types/offer';
 
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';

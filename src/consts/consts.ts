@@ -1,4 +1,4 @@
-import { TCity } from '../types';
+import { TCity } from '../types/offer';
 
 export enum PlacesSorting {
   Popular = 'Popular',
