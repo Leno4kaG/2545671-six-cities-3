@@ -11,7 +11,7 @@ type FavoritesProps = {
   offers: Offer[];
 };
 
-function Favorites({ offers }: FavoritesProps): JSX.Element {
+function FavoritesPage({ offers }: FavoritesProps): JSX.Element {
 
   return (
     <div className="page">
@@ -48,4 +48,4 @@ function Favorites({ offers }: FavoritesProps): JSX.Element {
   );
 }
 
-export default Favorites;
+export default FavoritesPage;

@@ -26,3 +26,7 @@ export function formatDateForTime(iso: string, locale: string) {
 export function getRating(rating: number): string {
   return `${Math.max(0, Math.min(MAX_RATING, Number(rating) || 0)) * PERCENT_PER_STAR}%`;
 }
+
+export function getRandomCards<T>(data: T[], count: number): T[] {
+  return [...data].sort(() => Math.random() - 0.5).slice(0, count);
+}

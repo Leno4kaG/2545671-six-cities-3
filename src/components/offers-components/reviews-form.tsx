@@ -4,8 +4,13 @@ import { RATING, MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../consts/const
 
 type ChangeHandle = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
+type ReviewState = {
+  rating: number;
+  review: string;
+};
+
 function ReviewsForm() {
-  const [review, setReview] = useState({ rating: 0, review: '' });
+  const [review, setReview] = useState<ReviewState>({ rating: 0, review: '' });
   const handleChange: ChangeHandle = (evt) => {
     const { name, value } = evt.currentTarget;
     setReview({ ...review, [name]: value });
@@ -20,7 +25,7 @@ function ReviewsForm() {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
-              defaultValue={value}
+              value={value}
               id={`${value}-stars`}
               type="radio"
               onChange={handleChange}
@@ -46,12 +51,16 @@ function ReviewsForm() {
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">${MIN_REVIEW_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={review.rating === 0 || review.review.length < MIN_REVIEW_LENGTH || review.review.length > MAX_REVIEW_LENGTH}
+          disabled={
+            review.rating === 0 ||
+            review.review.length < MIN_REVIEW_LENGTH ||
+            review.review.length > MAX_REVIEW_LENGTH
+          }
         >
           Submit
         </button>

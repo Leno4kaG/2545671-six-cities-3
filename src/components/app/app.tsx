@@ -1,45 +1,45 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
-import Favorites from '../../pages/favorites';
-import Main from '../../pages/main';
+import FavoritesPage from '../../pages/favorites-page';
+import MainPage from '../../pages/main-page';
 import OfferPage from '../../pages/offer-page';
 import Error404 from '../../pages/error/error-404';
-import Login from '../../pages/login';
+import LoginPage from '../../pages/login-page';
 import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute, AuthorizationStatus } from '../../consts/consts';
 import { Offer } from '../../types';
 
 type AppProps = {
-  offer: Offer[];
-
+  offers: Offer[];
+  cardsCount: number;
 }
 
-function App({ offer }: AppProps): JSX.Element {
+function App({ offers, cardsCount }: AppProps): JSX.Element {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Main offers={offer} />}
+            element={<MainPage cardsCount={cardsCount} offers={offers} />}
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferPage offers={offer} />}
+            element={<OfferPage offers={offers} />}
           />
           <Route
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <Favorites offers={offer} />
+                <FavoritesPage offers={offers} />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Login}
-            element={<Login />}
+            element={<LoginPage />}
           />
           <Route
             path={AppRoute.Error}
