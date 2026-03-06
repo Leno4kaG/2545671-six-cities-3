@@ -1,6 +1,6 @@
 import { Fragment, ReactEventHandler, useState } from 'react';
 
-import { RATING, MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../consts/consts';
+import { RATING, ReviewLength } from '../../consts/consts';
 
 type ChangeHandle = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -20,7 +20,7 @@ function ReviewsForm() {
             <input
               className="form__rating-input visually-hidden"
               name="rating"
-              defaultValue={value}
+              value={value}
               id={`${value}-stars`}
               type="radio"
               onChange={handleChange}
@@ -46,12 +46,16 @@ function ReviewsForm() {
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">${ReviewLength.MinReviewLength} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={review.rating === 0 || review.review.length < MIN_REVIEW_LENGTH || review.review.length > MAX_REVIEW_LENGTH}
+          disabled={
+            review.rating === 0 ||
+            review.review.length < ReviewLength.MinReviewLength ||
+            review.review.length > ReviewLength.MaxReviewLength
+          }
         >
           Submit
         </button>

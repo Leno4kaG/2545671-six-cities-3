@@ -6,6 +6,7 @@ import OfferReviews from '../components/offers-components/offer-reviews';
 import NearPlaces from '../components/offers-components/near-places';
 import InsideAmenitiesItem from '../components/offers-components/inside-amenities-item';
 import Error404 from './error/error-404';
+import Map from '../components/map/map';
 
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -20,9 +21,17 @@ function OfferPage({ offers }: OfferProps) {
 
   const { id } = useParams<{ id: string }>();
   const currentOffer: Offer | undefined = offers.find((offer) => offer.id === id);
+
   if (!currentOffer) {
     return <Error404 />;
   }
+
+  const nearbyOffers = offers
+    .filter((offer) => offer.city.name === currentOffer.city.name && offer.id !== currentOffer.id)
+    .slice(0, 3);
+
+
+  const mapOffers = [...nearbyOffers, currentOffer];
 
   return (
     <div className="page">
@@ -53,10 +62,18 @@ function OfferPage({ offers }: OfferProps) {
               <OfferReviews />
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <Map
+            offers={mapOffers}
+            location={currentOffer.location}
+            className='offer__map map'
+            activeOfferId={null}
+            allowHover={false}
+          />
         </section>
         <div className="container">
-          <NearPlaces />
+          <NearPlaces
+            offers={nearbyOffers}
+          />
         </div>
       </main>
     </div>

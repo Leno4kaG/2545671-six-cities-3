@@ -5,7 +5,10 @@ import ReviewsForm from './reviews-form';
 function OfferReviews() {
   return (
     <section className="offer__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
+      <h2 className="reviews__title">
+        Reviews &middot;
+        <span className="reviews__amount">1</span>
+      </h2>
       <ul className="reviews__list">
         {mockComments.map((review) => (
           <ReviewsItem

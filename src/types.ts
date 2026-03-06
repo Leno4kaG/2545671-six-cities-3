@@ -13,6 +13,12 @@ export type TCity = {
   };
 };
 
+export type TLocation = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
 export type Offer = {
   id: string;
   title: string;
@@ -29,5 +35,6 @@ export type Offer = {
   maxAdults: number;
   host: THost;
   city: TCity;
+  location: TLocation;
 };
 

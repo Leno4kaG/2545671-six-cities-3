@@ -1,18 +1,24 @@
 import PlaceCard from '../place-card';
 
-import mockOffers from '../../mock/mock-offers';
+import { Offer } from '../../types';
 
-function NearPlaces() {
+type NearPlacesProps = {
+  offers: Offer[];
+}
+
+function NearPlaces({ offers }: NearPlacesProps): JSX.Element {
+
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
-        {mockOffers.map((card) => (
+        {offers.map((card) => (
           <PlaceCard
             key={card.id}
             data={card}
             variant='near-places'
-          />))}
+          />
+        ))}
       </div>
     </section>
   );
