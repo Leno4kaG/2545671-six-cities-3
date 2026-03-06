@@ -82,10 +82,10 @@ export const RATING = [
   { value: 1, label: 'terribly' }
 ];
 
-export enum ReviewLength {
-  MinReviewLength = 50,
-  MaxReviewLength = 300,
-}
+
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 300;
+
 
 export const Setting = {
   cardsCount: 5,

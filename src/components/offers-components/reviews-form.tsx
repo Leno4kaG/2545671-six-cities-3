@@ -1,11 +1,16 @@
 import { Fragment, ReactEventHandler, useState } from 'react';
 
-import { RATING, ReviewLength } from '../../consts/consts';
+import { RATING, MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../consts/consts';
 
 type ChangeHandle = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
+type ReviewState = {
+  rating: number;
+  review: string;
+};
+
 function ReviewsForm() {
-  const [review, setReview] = useState({ rating: 0, review: '' });
+  const [review, setReview] = useState<ReviewState>({ rating: 0, review: '' });
   const handleChange: ChangeHandle = (evt) => {
     const { name, value } = evt.currentTarget;
     setReview({ ...review, [name]: value });
@@ -46,15 +51,15 @@ function ReviewsForm() {
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">${ReviewLength.MinReviewLength} characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">${MIN_REVIEW_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
           disabled={
             review.rating === 0 ||
-            review.review.length < ReviewLength.MinReviewLength ||
-            review.review.length > ReviewLength.MaxReviewLength
+            review.review.length < MIN_REVIEW_LENGTH ||
+            review.review.length > MAX_REVIEW_LENGTH
           }
         >
           Submit
