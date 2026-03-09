@@ -67,7 +67,7 @@ function OfferPage({ offers }: OfferProps) {
             offers={mapOffers}
             location={currentOffer.location}
             className='offer__map map'
-            activeOfferId={null}
+            activeOfferId={currentOffer.id}
             allowHover={false}
           />
         </section>
