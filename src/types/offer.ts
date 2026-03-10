@@ -37,4 +37,3 @@ export type Offer = {
   city: TCity;
   location: TLocation;
 };
-

@@ -11,7 +11,8 @@ import Map from '../components/map/map';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
-import { Offer } from '../types';
+import { Offer } from '../types/offer';
+import { mockComments } from '../mock/mock-comments';
 
 type OfferProps = {
   offers: Offer[];
@@ -59,14 +60,14 @@ function OfferPage({ offers }: OfferProps) {
                 host={currentOffer.host}
                 description={currentOffer.description}
               />
-              <OfferReviews />
+              <OfferReviews reviews={mockComments} />
             </div>
           </div>
           <Map
             offers={mapOffers}
             location={currentOffer.location}
             className='offer__map map'
-            activeOfferId={null}
+            activeOfferId={currentOffer.id}
             allowHover={false}
           />
         </section>

@@ -1,19 +1,12 @@
 import { formatDateForTime, getRating } from '../../utils/utils';
+import { Review } from '../../types/review';
 
 type ReviewsProps = {
-  date: string;
-  user: {
-    name: string;
-    avatarUrl: string;
-    isPro?: boolean;
-  };
-  comment: string;
-  rating: number;
+  data: Review;
 }
-
-function ReviewsItem({ date, user, comment, rating }: ReviewsProps): JSX.Element {
-  const { text, dateTime } = formatDateForTime(date, 'en-US');
-  const newRating = getRating(rating);
+function ReviewsItem({ data }: ReviewsProps): JSX.Element {
+  const { text, dateTime } = formatDateForTime(data.date, 'en-US');
+  const newRating = getRating(data.rating);
 
   return (
     <li className="reviews__item">
@@ -21,14 +14,14 @@ function ReviewsItem({ date, user, comment, rating }: ReviewsProps): JSX.Element
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
           <img
             className="reviews__avatar user__avatar"
-            src={user.avatarUrl}
+            src={data.user.avatarUrl}
             width={54}
             height={54}
             alt="Reviews avatar"
           />
         </div>
         <span className="reviews__user-name">
-          {user.name}
+          {data.user.name}
         </span>
       </div>
       <div className="reviews__info">
@@ -39,7 +32,7 @@ function ReviewsItem({ date, user, comment, rating }: ReviewsProps): JSX.Element
           </div>
         </div>
         <p className="reviews__text">
-          {comment}
+          {data.comment}
         </p>
         <time className="reviews__time" dateTime={dateTime}>{text}</time>
       </div>

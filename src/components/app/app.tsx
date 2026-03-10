@@ -9,7 +9,7 @@ import LoginPage from '../../pages/login-page';
 import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute, AuthorizationStatus } from '../../consts/consts';
-import { Offer } from '../../types';
+import { Offer } from '../../types/offer';
 
 type AppProps = {
   offers: Offer[];

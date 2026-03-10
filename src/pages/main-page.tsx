@@ -7,7 +7,7 @@ import Map from '../components/map/map';
 import { Helmet } from 'react-helmet-async';
 import { useState, useMemo } from 'react';
 
-import { Offer, TCity } from '../types';
+import { Offer, TCity } from '../types/offer';
 import { getRandomCards } from '../utils/utils';
 
 
@@ -20,7 +20,15 @@ function MainPage({ offers, cardsCount }: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
   const activeCity: TCity | undefined = offers.find((offer) => offer.city.name === 'Amsterdam')?.city;
 
-  const cards = useMemo(() => getRandomCards(offers, cardsCount), [offers, cardsCount]);
+  const amsterdamOffers = useMemo(
+    () => offers.filter((o) => o.city.name === 'Amsterdam'),
+    [offers]
+  );
+
+  const cards = useMemo(
+    () => getRandomCards(amsterdamOffers, cardsCount),
+    [amsterdamOffers, cardsCount]
+  );
 
   return (
     <div className="page page--gray page--main">

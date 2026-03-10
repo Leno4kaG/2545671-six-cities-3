@@ -2,7 +2,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 
-import { Offer, TLocation } from '../../types';
+import { Offer, TLocation } from '../../types/offer';
 import pin from '../../img/pin.svg';
 import pinActive from '../../img/pin-active.svg';
 
@@ -58,7 +58,7 @@ function Map({ location, offers, className, activeOfferId, allowHover = true }: 
     const markers: leaflet.Marker[] = offers.map((offer) => leaflet.marker(
       [offer.location.latitude, offer.location.longitude],
       {
-        icon: allowHover && offer.id === activeOfferId ? currentIcon : defaultIcon,
+        icon: offer.id === activeOfferId ? currentIcon : defaultIcon,
       }).addTo(leafletMap));
 
     return () => {
