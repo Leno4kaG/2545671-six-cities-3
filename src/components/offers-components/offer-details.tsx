@@ -1,5 +1,6 @@
 import { Offer } from '../../types/offer';
-import { getRating } from '../../utils/utils';
+import { getRating, capitalizeFirst } from '../../utils/utils';
+import { MIN_COUNT } from '../../consts/consts';
 
 type OfferDetails = {
   data: Offer;
@@ -32,17 +33,19 @@ function OfferDetails({ data }: OfferDetails) {
           <span style={{ width: newRating }}></span>
           <span className="visually-hidden">Rating</span>
         </div>
-        <span className="offer__rating-value rating__value">{rating}</span>
+        <span className="offer__rating-value rating__value">
+          {Math.round(rating)}
+        </span>
       </div>
       <ul className="offer__features">
         <li className="offer__feature offer__feature--entire">
-          {type}
+          {capitalizeFirst(type)}
         </li>
         <li className="offer__feature offer__feature--bedrooms">
-          {bedrooms}
+          {bedrooms} {bedrooms === MIN_COUNT ? 'Bedroom' : 'Bedrooms'}
         </li>
         <li className="offer__feature offer__feature--adults">
-          {maxAdults}
+          Max {maxAdults} {maxAdults === MIN_COUNT ? 'adult' : 'adults'}
         </li>
       </ul>
       <div className="offer__price">

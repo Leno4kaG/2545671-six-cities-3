@@ -6,29 +6,25 @@ import Map from '../components/map/map';
 
 import { Helmet } from 'react-helmet-async';
 import { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import { Offer, TCity } from '../types/offer';
+import { State } from '../types/state';
 import { getRandomCards } from '../utils/utils';
 
 
 type MainProps = {
-  offers: Offer[];
   cardsCount: number;
 };
 
-function MainPage({ offers, cardsCount }: MainProps): JSX.Element {
+function MainPage({ cardsCount }: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
-  const activeCity: TCity | undefined = offers.find((offer) => offer.city.name === 'Amsterdam')?.city;
 
-  const amsterdamOffers = useMemo(
-    () => offers.filter((o) => o.city.name === 'Amsterdam'),
-    [offers]
-  );
+  const selectedCity = useSelector((state: State) => state.city);
+  const offers = useSelector((state: State) => state.offers);
 
-  const cards = useMemo(
-    () => getRandomCards(amsterdamOffers, cardsCount),
-    [amsterdamOffers, cardsCount]
-  );
+  const cityOffers = offers.filter((offer) => offer.city.name === selectedCity.name);
+
+  const cards = useMemo(() => getRandomCards(cityOffers, cardsCount), [cityOffers, cardsCount]);
 
   return (
     <div className="page page--gray page--main">
@@ -41,7 +37,7 @@ function MainPage({ offers, cardsCount }: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">312 places to stay in Amsterdam</b>
+              <b className="places__found">{cityOffers.length} places to stay in {selectedCity.name}</b>
               <Sort />
               <OfferList
                 offers={cards}
@@ -49,11 +45,11 @@ function MainPage({ offers, cardsCount }: MainProps): JSX.Element {
               />
             </section>
             <div className="cities__right-section">
-              {activeCity &&
+              {selectedCity &&
                 (
                   <Map
                     offers={cards}
-                    location={activeCity.location}
+                    location={selectedCity.location}
                     className='cities__map map'
                     activeOfferId={activeOfferId}
                   />
