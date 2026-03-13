@@ -1,10 +1,10 @@
 import { formatDateForTime, getRating } from '../../utils/utils';
 import { Review } from '../../types/review';
 
-type ReviewsProps = {
+type ReviewItemProps = {
   data: Review;
 }
-function ReviewsItem({ data }: ReviewsProps): JSX.Element {
+function ReviewItem({ data }: ReviewItemProps): JSX.Element {
   const { text, dateTime } = formatDateForTime(data.date, 'en-US');
   const newRating = getRating(data.rating);
 
@@ -40,4 +40,4 @@ function ReviewsItem({ data }: ReviewsProps): JSX.Element {
   );
 }
 
-export default ReviewsItem;
+export default ReviewItem;

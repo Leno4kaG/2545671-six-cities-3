@@ -12,15 +12,16 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 
 import { Offer } from '../types/offer';
+import { COUNT_NEARBY_OFFERS, MAX_IMAGES_COUNT } from '../consts/consts';
 import { mockComments } from '../mock/mock-comments';
+import { useSelector } from 'react-redux';
+import { State } from '../types/state';
 
-type OfferProps = {
-  offers: Offer[];
-}
-
-function OfferPage({ offers }: OfferProps) {
-
+function OfferPage() {
   const { id } = useParams<{ id: string }>();
+
+  const offers = useSelector((state: State) => state.offers);
+
   const currentOffer: Offer | undefined = offers.find((offer) => offer.id === id);
 
   if (!currentOffer) {
@@ -29,8 +30,7 @@ function OfferPage({ offers }: OfferProps) {
 
   const nearbyOffers = offers
     .filter((offer) => offer.city.name === currentOffer.city.name && offer.id !== currentOffer.id)
-    .slice(0, 3);
-
+    .slice(0, COUNT_NEARBY_OFFERS);
 
   const mapOffers = [...nearbyOffers, currentOffer];
 
@@ -42,7 +42,7 @@ function OfferPage({ offers }: OfferProps) {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <OfferGallery images={currentOffer.images} />
+              <OfferGallery images={currentOffer.images.slice(0, MAX_IMAGES_COUNT)} />
             </div>
           </div>
           <div className="offer__container container">

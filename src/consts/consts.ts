@@ -1,4 +1,7 @@
-import { TCity } from '../types/offer';
+import { City } from '../types/offer';
+
+export const MAX_RATING = 5;
+export const PERCENT_PER_STAR = 20;
 
 export enum PlacesSorting {
   Popular = 'Popular',
@@ -21,7 +24,7 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const CITIES: TCity[] = [
+export const CITIES: City[] = [
   {
     name: 'Paris',
     location: {
@@ -85,8 +88,13 @@ export const RATING = [
 
 export const MIN_REVIEW_LENGTH = 50;
 export const MAX_REVIEW_LENGTH = 300;
+export const MIN_COUNT = 1;
+export const COUNT_NEARBY_OFFERS = 3;
+export const MAX_IMAGES_COUNT = 6;
 
 
 export const Setting = {
   cardsCount: 5,
 };
+
+export const MAX_REVIEW_COUNT = 10;

@@ -1,5 +1,5 @@
-const MAX_RATING = 5;
-const PERCENT_PER_STAR = 20;
+import { Review } from '../types/review';
+import { MAX_RATING, PERCENT_PER_STAR } from '../consts/consts';
 
 export function getRandomInteger(minValue: number, maxValue: number): number {
   const lower = Math.ceil(Math.min(minValue, maxValue));
@@ -23,10 +23,19 @@ export function formatDateForTime(iso: string, locale: string) {
   return { dateTime, text };
 }
 
+export function sortReviewsByDate(reviews: Review[]): Review[] {
+  return reviews.slice().sort((a, b) => (new Date(b.date).getTime() - new Date(a.date).getTime())
+  );
+}
+
 export function getRating(rating: number): string {
   return `${Math.max(0, Math.min(MAX_RATING, Number(rating) || 0)) * PERCENT_PER_STAR}%`;
 }
 
 export function getRandomCards<T>(data: T[], count: number): T[] {
   return [...data].sort(() => Math.random() - 0.5).slice(0, count);
+}
+
+export function capitalizeFirst(str: string): string {
+  return str[0].toUpperCase() + str.slice(1);
 }
