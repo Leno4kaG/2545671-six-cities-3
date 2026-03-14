@@ -9,7 +9,8 @@ import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { State } from '../types/state';
-import { getRandomCards } from '../utils/utils';
+
+import { PlacesSorting } from '../consts/consts';
 
 
 type MainProps = {
@@ -20,11 +21,28 @@ function MainPage({ cardsCount }: MainProps): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   const selectedCity = useSelector((state: State) => state.city);
+  const [selectedSorting, setSelectedSorting] = useState<PlacesSorting>(PlacesSorting.Popular);
+
   const offers = useSelector((state: State) => state.offers);
 
   const cityOffers = offers.filter((offer) => offer.city.name === selectedCity.name);
 
-  const cards = useMemo(() => getRandomCards(cityOffers, cardsCount), [cityOffers, cardsCount]);
+  const baseCards = useMemo(() => cityOffers.slice(0, cardsCount), [cityOffers, cardsCount]);
+
+  const sortedCards = useMemo(() => {
+    const cardsCopy = [...baseCards];
+    switch (selectedSorting) {
+      case PlacesSorting.PriceToLow:
+        return cardsCopy.sort((a, b) => a.price - b.price);
+      case PlacesSorting.PriceToHigh:
+        return cardsCopy.sort((a, b) => b.price - a.price);
+      case PlacesSorting.Top:
+        return cardsCopy.sort((a, b) => b.rating - a.rating);
+      case PlacesSorting.Popular:
+      default:
+        return cardsCopy;
+    }
+  }, [baseCards, selectedSorting]);
 
   return (
     <div className="page page--gray page--main">
@@ -38,9 +56,9 @@ function MainPage({ cardsCount }: MainProps): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{cityOffers.length} places to stay in {selectedCity.name}</b>
-              <Sort />
+              <Sort selected={selectedSorting} onChange={setSelectedSorting} />
               <OfferList
-                offers={cards}
+                offers={sortedCards}
                 onActiveOfferChange={setActiveOfferId}
               />
             </section>
@@ -48,7 +66,7 @@ function MainPage({ cardsCount }: MainProps): JSX.Element {
               {selectedCity &&
                 (
                   <Map
-                    offers={cards}
+                    offers={sortedCards}
                     location={selectedCity.location}
                     className='cities__map map'
                     activeOfferId={activeOfferId}
