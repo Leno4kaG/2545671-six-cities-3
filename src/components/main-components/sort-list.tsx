@@ -1,16 +1,27 @@
 import { PlacesSorting } from '../../consts/consts';
 
-function SortList() {
+type SortListProps = {
+  selected: PlacesSorting;
+  onChange: (value: PlacesSorting) => void;
+}
+
+function SortList({ selected, onChange }: SortListProps): JSX.Element {
   return (
     <ul className="places__options places__options--custom places__options--opened">
-      {Object.values(PlacesSorting).map((place) => (
-        <li
-          className="places__option places__option--active"
-          tabIndex={0}
-          key={place}
-        >
-          {place}
-        </li>))}
+      {Object.values(PlacesSorting).map((place) => {
+        const isActive = place === selected;
+        return (
+          <li
+            className={`places__option ${isActive ? 'places__option--active'
+              : ''}`}
+            tabIndex={0}
+            key={place}
+            onClick={() => onChange(place)}
+          >
+            {place}
+          </li>
+        );
+      })}
     </ul>
   );
 }
