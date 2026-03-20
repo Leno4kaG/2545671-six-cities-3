@@ -10,17 +10,19 @@ import Map from '../components/map/map';
 
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { Offer } from '../types/offer';
 import { COUNT_NEARBY_OFFERS, MAX_IMAGES_COUNT } from '../consts/consts';
 import { mockComments } from '../mock/mock-comments';
-import { useSelector } from 'react-redux';
+
+
 import { State } from '../types/state';
 
 function OfferPage() {
   const { id } = useParams<{ id: string }>();
 
-  const offers = useSelector((state: State) => state.offers);
+  const offers = useSelector((state: State) => state.app.offers);
 
   const currentOffer: Offer | undefined = offers.find((offer) => offer.id === id);
 

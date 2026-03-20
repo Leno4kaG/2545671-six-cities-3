@@ -9,23 +9,18 @@ import LoginPage from '../../pages/login-page';
 import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute, AuthorizationStatus } from '../../consts/consts';
-import { Offer } from '../../types/offer';
+
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../types/state';
 import { useEffect } from 'react';
-import { setOffers } from '../../store/action';
-import mockOffers from '../../mock/mock-offers';
+import { fetchAllOffers } from '../../store/api-action';
 
-type AppProps = {
-  offers: Offer[];
-  cardsCount: number;
-}
 
-function App({ offers, cardsCount }: AppProps): JSX.Element {
+function App() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(setOffers(mockOffers));
+    dispatch(fetchAllOffers());
   }, [dispatch]);
 
   return (
@@ -34,7 +29,7 @@ function App({ offers, cardsCount }: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainPage cardsCount={cardsCount} />}
+            element={<MainPage />}
           />
           <Route
             path={AppRoute.Offer}
@@ -44,7 +39,7 @@ function App({ offers, cardsCount }: AppProps): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavoritesPage offers={offers} />
+                <FavoritesPage />
               </PrivateRoute>
             }
           />
