@@ -46,10 +46,7 @@ function MainPage(): JSX.Element {
               <b className="places__found">{cityOffers.length} places to stay in {selectedCity.name}</b>
               <Sort selected={selectedSorting} onChange={setSelectedSorting} />
               {isOffersLoading ? (
-                <Spinner
-                  size={46}
-                  label='Loading...'
-                />
+                <Spinner />
               ) : (
                 < OfferList
                   offers={sortedCards}

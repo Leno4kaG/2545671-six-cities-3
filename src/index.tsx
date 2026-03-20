@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import App from './components/app/app';
 //import mockOffers from './mock/mock-offers';
 
-
 import { store } from './store';
 
 const root = ReactDOM.createRoot(
