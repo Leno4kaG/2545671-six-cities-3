@@ -2,15 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { CITIES } from '../../consts/consts';
-import { City } from '../../types/offer';
 import { State, AppDispatch } from '../../types/state';
 import { setCity } from '../../store/offers-slice';
 
-type LocationsListProps = {
-  onClick?: (city: City) => void;
-}
-
-function LocationsList({ onClick }: LocationsListProps): JSX.Element {
+function LocationsList(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const activeCityName = useSelector((state: State) => state.app.city.name);
   return (
@@ -25,7 +20,6 @@ function LocationsList({ onClick }: LocationsListProps): JSX.Element {
               onClick={(evt) => {
                 evt.preventDefault();
                 dispatch(setCity(city));
-                onClick?.(city);
               }}
             >
               <span>{city.name}</span>

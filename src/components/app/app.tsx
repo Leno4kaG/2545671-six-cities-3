@@ -8,13 +8,12 @@ import Error404 from '../../pages/error/error-404';
 import LoginPage from '../../pages/login-page';
 import PrivateRoute from '../private-route/private-route';
 
-import { AppRoute, AuthorizationStatus } from '../../consts/consts';
+import { AppRoute } from '../../consts/consts';
 
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../types/state';
 import { useEffect } from 'react';
 import { fetchAllOffers } from '../../store/api-action';
-
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -38,7 +37,7 @@ function App() {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+              <PrivateRoute >
                 <FavoritesPage />
               </PrivateRoute>
             }
