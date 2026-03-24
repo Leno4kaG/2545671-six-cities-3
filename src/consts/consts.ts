@@ -98,3 +98,5 @@ export const Setting = {
 };
 
 export const MAX_REVIEW_COUNT = 10;
+
+export const TIMEOUT_SHOW_ERROR = 2000;

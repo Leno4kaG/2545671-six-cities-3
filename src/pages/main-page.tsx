@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 import { State } from '../types/state';
 
-import { PlacesSorting } from '../consts/consts';
+import { PlacesSorting, AuthorizationStatus } from '../consts/consts';
 import { getBaseCards, sortOffers } from '../selectors/offers-selectors';
 
 
@@ -24,13 +24,17 @@ function MainPage(): JSX.Element {
 
   const offers = useSelector((state: State) => state.app.offers);
 
-  const cityOffers = offers.filter((offer) => offer.city.name === selectedCity.name);
-
   const baseCards = useMemo(() => getBaseCards(offers, selectedCity.name), [offers, selectedCity.name]);
 
   const sortedCards = useMemo(() => sortOffers(baseCards, selectedSorting), [baseCards, selectedSorting]);
 
   const isOffersLoading = useSelector((state: State) => state.app.isLoading);
+
+  const authorizationStatus = useSelector((state: State) => state.app.authorizationStatus);
+
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return <Spinner />;
+  }
 
   return (
     <div className="page page--gray page--main">
@@ -43,7 +47,7 @@ function MainPage(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{cityOffers.length} places to stay in {selectedCity.name}</b>
+              <b className="places__found">{baseCards.length} places to stay in {selectedCity.name}</b>
               <Sort selected={selectedSorting} onChange={setSelectedSorting} />
               {isOffersLoading ? (
                 <Spinner />
