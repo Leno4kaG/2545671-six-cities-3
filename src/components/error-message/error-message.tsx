@@ -3,7 +3,7 @@ import { State } from '../../types/state';
 import './error-message.css';
 
 export function ErrorMessage(): JSX.Element | null {
-  const error = useSelector((state: State) => state.app.error);
+  const error = useSelector((state: State) => state.offers.error);
   return (error) ?
     <div className="error-message">
       {error}

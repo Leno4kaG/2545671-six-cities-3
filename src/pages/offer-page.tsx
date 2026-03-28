@@ -10,31 +10,57 @@ import Map from '../components/map/map';
 
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch, } from 'react-redux';
+import { useEffect } from 'react';
 
-import { Offer } from '../types/offer';
-import { COUNT_NEARBY_OFFERS, MAX_IMAGES_COUNT } from '../consts/consts';
-import { mockComments } from '../mock/mock-comments';
+import { AppDispatch } from '../types/state';
+import { fetchNearbyOffersById, fetchOfferById, fetchReviewsByOfferId } from '../store/api-action';
+import { clearOffer } from '../store/current-offer-slice';
+import { clearReviews } from '../store/reviews-slice';
 
 
+import { COUNT_NEARBY_OFFERS, MAX_IMAGES_COUNT, AuthorizationStatus } from '../consts/consts';
 import { State } from '../types/state';
+import Spinner from '../components/spinner/spinner';
 
 function OfferPage() {
   const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const offers = useSelector((state: State) => state.app.offers);
+  const authStatus = useSelector((state: State) => state.user.authorizationStatus);
+  const { currentOffer, isLoading, isOfferNotFound, nearbyOffers, } = useSelector((state: State) => state.currentOffer);
+  const { reviews } = useSelector((state: State) => state.reviews);
 
-  const currentOffer: Offer | undefined = offers.find((offer) => offer.id === id);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferById(id));
+      dispatch(fetchNearbyOffersById(id));
+      dispatch(fetchReviewsByOfferId(id));
+    }
+    return () => {
+      dispatch(clearOffer());
+      dispatch(clearReviews());
+    };
+  }, [dispatch, id]);
 
-  if (!currentOffer) {
+  if (isOfferNotFound) {
     return <Error404 />;
   }
 
-  const nearbyOffers = offers
-    .filter((offer) => offer.city.name === currentOffer.city.name && offer.id !== currentOffer.id)
-    .slice(0, COUNT_NEARBY_OFFERS);
+  if (isLoading || !currentOffer) {
+    return (
+      <div className="page">
+        <Header />
+        <main className="page__main page__main--offer">
+          <Spinner />
+        </main>
+      </div>
+    );
+  }
 
-  const mapOffers = [...nearbyOffers, currentOffer];
+  const nearby = nearbyOffers.slice(0, COUNT_NEARBY_OFFERS);
+
+  const mapOffers = [...nearby, currentOffer];
 
   return (
     <div className="page">
@@ -62,7 +88,7 @@ function OfferPage() {
                 host={currentOffer.host}
                 description={currentOffer.description}
               />
-              <OfferReviews reviews={mockComments} />
+              <OfferReviews reviews={reviews} isAuth={authStatus === AuthorizationStatus.Auth} />
             </div>
           </div>
           <Map
@@ -75,7 +101,7 @@ function OfferPage() {
         </section>
         <div className="container">
           <NearPlaces
-            offers={nearbyOffers}
+            offers={nearby}
           />
         </div>
       </main>

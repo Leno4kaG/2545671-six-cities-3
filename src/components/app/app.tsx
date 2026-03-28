@@ -13,13 +13,17 @@ import { AppRoute } from '../../consts/consts';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../types/state';
 import { useEffect } from 'react';
-import { fetchAllOffers } from '../../store/api-action';
+import { fetchAllOffers, checkAuthAction } from '../../store/api-action';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(fetchAllOffers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(checkAuthAction());
   }, [dispatch]);
 
   return (

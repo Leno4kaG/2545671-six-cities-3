@@ -40,7 +40,7 @@ function LoginPage(): JSX.Element {
   };
 
   const authorizationStatus = useSelector(
-    (state: State) => state.app.authorizationStatus
+    (state: State) => state.user.authorizationStatus
   );
 
   if (authorizationStatus === AuthorizationStatus.Auth) {

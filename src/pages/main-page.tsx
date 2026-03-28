@@ -18,19 +18,19 @@ import { getBaseCards, sortOffers } from '../selectors/offers-selectors';
 function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
-  const selectedCity = useSelector((state: State) => state.app.city);
+  const selectedCity = useSelector((state: State) => state.offers.city);
 
   const [selectedSorting, setSelectedSorting] = useState<PlacesSorting>(PlacesSorting.Popular);
 
-  const offers = useSelector((state: State) => state.app.offers);
+  const offers = useSelector((state: State) => state.offers.offers);
 
   const baseCards = useMemo(() => getBaseCards(offers, selectedCity.name), [offers, selectedCity.name]);
 
   const sortedCards = useMemo(() => sortOffers(baseCards, selectedSorting), [baseCards, selectedSorting]);
 
-  const isOffersLoading = useSelector((state: State) => state.app.isLoading);
+  const isOffersLoading = useSelector((state: State) => state.offers.isLoading);
 
-  const authorizationStatus = useSelector((state: State) => state.app.authorizationStatus);
+  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <Spinner />;

@@ -1,26 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { City, Offer } from '../types/offer';
-import { AuthorizationStatus, CITIES } from '../consts/consts';
-
 import { fetchAllOffers } from './api-action';
-import { AuthInfo } from '../types/auth-info';
+import { CITIES } from '../consts/consts';
 
-type State = {
+
+type OffersState = {
   city: City;
   offers: Offer[];
   isLoading: boolean;
-  authorizationStatus: AuthorizationStatus;
-  user: AuthInfo | null;
   error: string | null;
 }
 
-const initialState: State = {
+const initialState: OffersState = {
   city: CITIES[0],
   offers: [],
   isLoading: false,
-  authorizationStatus: AuthorizationStatus.Unknown,
-  user: null,
   error: null,
 };
 
@@ -31,32 +26,26 @@ const offerSlice = createSlice({
     setCity(state, action: PayloadAction<City>) {
       state.city = action.payload;
     },
-    setAuthorizationStatus(state, action: PayloadAction<AuthorizationStatus>) {
-      state.authorizationStatus = action.payload;
-    },
-    setUser(state, action: PayloadAction<AuthInfo | null>) {
-      state.user = action.payload;
-    },
     setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
     }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllOffers.pending,
-      (state: State) => {
+      (state: OffersState) => {
         state.isLoading = true;
       })
       .addCase(fetchAllOffers.fulfilled,
-        (state: State, action: PayloadAction<Offer[]>) => {
+        (state: OffersState, action: PayloadAction<Offer[]>) => {
           state.offers = action.payload;
           state.isLoading = false;
         })
       .addCase(fetchAllOffers.rejected,
-        (state: State) => {
+        (state: OffersState) => {
           state.isLoading = false;
         });
   },
 });
 
-export const { setCity, setAuthorizationStatus, setUser, setError } = offerSlice.actions;
+export const { setCity, setError } = offerSlice.actions;
 export const offerReducer = offerSlice.reducer;

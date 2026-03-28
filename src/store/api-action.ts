@@ -5,7 +5,8 @@ import { AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../consts/consts';
 import { AuthData } from '../types/auth-data';
 import { dropToken, saveToken } from '../services/token';
 import { AuthInfo } from '../types/auth-info';
-
+import { setOfferNotFound } from './current-offer-slice';
+import { Review } from '../types/review';
 
 export const fetchAllOffers = createAsyncThunk<
   Offer[],
@@ -19,6 +20,48 @@ export const fetchAllOffers = createAsyncThunk<
   }
 );
 
+export const fetchOfferById = createAsyncThunk<
+  Offer,
+  string,
+  { extra: AxiosInstance }
+>(
+  'currentOffer/fetchOfferById',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      dispatch(setOfferNotFound(false));
+      const response = await api.get<Offer>(`/offers/${id}`);
+      return response.data;
+    } catch (err) {
+      dispatch(setOfferNotFound(true));
+      throw err;
+    }
+  }
+);
+
+export const fetchNearbyOffersById = createAsyncThunk<
+  Offer[],
+  string,
+  { extra: AxiosInstance }
+>(
+  'currentOffer/fetchNearbyOffersById',
+  async (id, { extra: api }) => {
+    const response = await api.get<Offer[]>(`/offers/${id}/nearby`);
+    return response.data;
+  }
+);
+
+export const fetchReviewsByOfferId = createAsyncThunk<
+  Review[],
+  string,
+  { extra: AxiosInstance }
+>(
+  'reviews/fetchReviewsByOfferId',
+  async (id, { extra: api }) => {
+    const response = await api.get<Review[]>(`/comments/${id}`);
+    return response.data;
+  }
+);
+
 export const checkAuthAction = createAsyncThunk<
   void,
   void,
@@ -27,10 +70,11 @@ export const checkAuthAction = createAsyncThunk<
   'user/checkAuth',
   async (_arg, { dispatch, extra: api }) => {
     try {
-      await api.get('/login');
-      dispatch({ type: 'offers/setAuthorizationStatus', payload: AuthorizationStatus.Auth });
+      const response = await api.get<AuthInfo>('/login');
+      dispatch({ type: 'user/setUser', payload: response.data });
+      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.Auth });
     } catch {
-      dispatch({ type: 'offers/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
+      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
     }
   }
 );
@@ -45,11 +89,11 @@ export const loginAction = createAsyncThunk<
     try {
       const data = await api.post<AuthInfo>('/login', { email, password });
       saveToken(data.data.token);
-      dispatch({ type: 'offers/setUser', payload: data.data });
-      dispatch({ type: 'offers/setAuthorizationStatus', payload: AuthorizationStatus.Auth });
+      dispatch({ type: 'user/setUser', payload: data.data });
+      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.Auth });
     } catch {
-      dispatch({ type: 'offers/setError', payload: 'Access deny' });
-      dispatch({ type: 'offers/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
+      dispatch({ type: 'user/setError', payload: 'Access deny' });
+      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
     }
   }
 );
@@ -63,8 +107,8 @@ export const logoutAction = createAsyncThunk<
   async (_arg, { dispatch, extra: api }) => {
     await api.delete('/logout');
     dropToken();
-    dispatch({ type: 'offers/setUser', payload: null });
-    dispatch({ type: 'offers/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
+    dispatch({ type: 'user/setUser', payload: null });
+    dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
   },
 );
 
