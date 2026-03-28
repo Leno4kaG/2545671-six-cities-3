@@ -7,7 +7,7 @@ import { setCity } from '../../store/offers-slice';
 
 function LocationsList(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const activeCityName = useSelector((state: State) => state.app.city.name);
+  const activeCityName = useSelector((state: State) => state.offers.city.name);
   return (
     <ul className="locations__list tabs__list">
       {CITIES.map((city) => {

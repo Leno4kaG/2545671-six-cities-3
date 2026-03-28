@@ -14,9 +14,9 @@ type HeaderProps = {
 function Header({ showNav = true }: HeaderProps): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
 
-  const authorizationStatus = useSelector((state: State) => state.app.authorizationStatus);
+  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
 
-  const user = useSelector((state: State) => state.app.user);
+  const user = useSelector((state: State) => state.user.user);
 
   const isLoggedIn: boolean = authorizationStatus === AuthorizationStatus.Auth;
 

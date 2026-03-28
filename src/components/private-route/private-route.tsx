@@ -10,7 +10,7 @@ type PrivateRouteProps = {
 }
 
 function PrivateRoute({ children }: PrivateRouteProps): JSX.Element {
-  const authorizationStatus = useSelector((state: State) => state.app.authorizationStatus);
+  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
 
   if (authorizationStatus === AuthorizationStatus.Unknown) {
     return <Spinner />;

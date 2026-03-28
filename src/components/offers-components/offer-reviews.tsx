@@ -7,9 +7,10 @@ import { MAX_REVIEW_COUNT } from '../../consts/consts';
 
 type OfferReviewsProps = {
   reviews: Review[];
+  isAuth: boolean;
 }
 
-function OfferReviews({ reviews }: OfferReviewsProps): JSX.Element {
+function OfferReviews({ reviews, isAuth }: OfferReviewsProps): JSX.Element {
   const sortedReviews = sortReviewsByDate(reviews).slice(0, MAX_REVIEW_COUNT);
 
   return (
@@ -25,7 +26,7 @@ function OfferReviews({ reviews }: OfferReviewsProps): JSX.Element {
             data={review}
           />))}
       </ul>
-      <ReviewsForm />
+      {isAuth ? <ReviewsForm /> : null}
     </section>
   );
 }
