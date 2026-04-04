@@ -1,5 +1,10 @@
 import { PlacesSorting } from '../consts/consts';
 import { Offer } from '../types/offer';
+import { State } from '../types/state';
+import { createSelector } from '@reduxjs/toolkit';
+
+const getOffersFromState = (state: State) => state.offers.offers;
+const getCityNameFromState = (state: State) => state.offers.city.name;
 
 export function getBaseCards(offers: Offer[], cityName: string): Offer[] {
   const cityOffers = offers.filter((offer) => offer.city.name === cityName);
@@ -20,3 +25,12 @@ export function sortOffers(baseCards: Offer[], selectedSorting: PlacesSorting): 
       return cardsCopy;
   }
 }
+
+export const createFilteredAndSortedSelector = () =>
+  createSelector(
+    [getOffersFromState, getCityNameFromState, (_: State, selectedSorting: PlacesSorting) => selectedSorting],
+    (offers, cityName, selectedSorting) => {
+      const baseCards = getBaseCards(offers, cityName);
+      return sortOffers(baseCards, selectedSorting);
+    }
+  );

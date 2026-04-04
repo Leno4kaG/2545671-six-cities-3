@@ -38,12 +38,18 @@ export const createAPI = (): AxiosInstance => {
   api.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
+      const originalRequest = error.config;
+      if (originalRequest && originalRequest.url && originalRequest.url.endsWith('/login')) {
+        return Promise.reject(error);
+      }
+
       if (error.response &&
         shouldDisplayError(error.response)) {
         const detailMessage = (error.response.data);
         processErrorHandle(detailMessage.message);
       }
-      throw error;
+      return Promise.reject(error);
+
     }
   );
 
