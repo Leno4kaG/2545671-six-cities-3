@@ -1,6 +1,11 @@
-import { Fragment, ReactEventHandler, useState } from 'react';
+import { Fragment, ReactEventHandler, useState, FormEvent } from 'react';
 
 import { RATING, MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../consts/consts';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
+import { postReviewAction } from '../../store/api-action';
+import { AppDispatch, State } from '../../types/state';
 
 type ChangeHandle = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -10,14 +15,41 @@ type ReviewState = {
 };
 
 function ReviewsForm() {
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useDispatch<AppDispatch>();
+  const { isPosting } = useSelector((state: State) => state.reviews);
   const [review, setReview] = useState<ReviewState>({ rating: 0, review: '' });
+
   const handleChange: ChangeHandle = (evt) => {
     const { name, value } = evt.currentTarget;
-    setReview({ ...review, [name]: value });
+    setReview({ ...review, [name]: name === 'rating' ? Number(value) : value });
+  };
+
+  const isInvalid = (review.rating === 0 || review.review.length < MIN_REVIEW_LENGTH || review.review.length > MAX_REVIEW_LENGTH);
+
+  const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (!id) {
+      return null;
+    }
+    if (isInvalid) {
+      return;
+    }
+    try {
+      await dispatch(postReviewAction({
+        id: id,
+        rating: review.rating,
+        comment: review.review
+      })).unwrap();
+
+      setReview({ rating: 0, review: '' });
+    } catch (_err) {
+      void _err;
+    }
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={(evt) => void handleFormSubmit(evt)}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {RATING.map(({ value, label }) => (
@@ -29,6 +61,8 @@ function ReviewsForm() {
               id={`${value}-stars`}
               type="radio"
               onChange={handleChange}
+              checked={review.rating === value}
+              disabled={isPosting}
             />
             <label
               htmlFor={`${value}-stars`}
@@ -48,19 +82,18 @@ function ReviewsForm() {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleChange}
+        value={review.review}
+        disabled={isPosting}
+
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">${MIN_REVIEW_LENGTH} characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{MIN_REVIEW_LENGTH} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={
-            review.rating === 0 ||
-            review.review.length < MIN_REVIEW_LENGTH ||
-            review.review.length > MAX_REVIEW_LENGTH
-          }
+          disabled={isInvalid || isPosting}
         >
           Submit
         </button>

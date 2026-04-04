@@ -62,6 +62,18 @@ export const fetchReviewsByOfferId = createAsyncThunk<
   }
 );
 
+export const postReviewAction = createAsyncThunk<
+  Review,
+  { id: string; rating: number; comment: string },
+  { extra: AxiosInstance }
+>(
+  'reviews/postReview',
+  async ({ id, rating, comment }, { extra: api }) => {
+    const response = await api.post<Review>(`/comments/${id}`, { comment, rating });
+    return response.data;
+  }
+);
+
 export const checkAuthAction = createAsyncThunk<
   void,
   void,
