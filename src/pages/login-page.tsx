@@ -1,11 +1,11 @@
 import { Helmet } from 'react-helmet-async';
-import { useDispatch, useSelector } from 'react-redux';
-import Header from '../components/header';
+
+import { Header } from '../components/header';
 import { FormEvent, useRef } from 'react';
-import { State } from '../types/state';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setError } from '../store/offers-slice';
 
-import { AppDispatch } from '../types/state';
+
 import { Navigate } from 'react-router-dom';
 import { loginAction } from '../store/api-action';
 import { AuthorizationStatus, AppRoute } from '../consts/consts';
@@ -14,7 +14,7 @@ function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -39,8 +39,8 @@ function LoginPage(): JSX.Element {
     }));
   };
 
-  const authorizationStatus = useSelector(
-    (state: State) => state.user.authorizationStatus
+  const authorizationStatus = useAppSelector(
+    (state) => state.userReducer.authorizationStatus
   );
 
   if (authorizationStatus === AuthorizationStatus.Auth) {

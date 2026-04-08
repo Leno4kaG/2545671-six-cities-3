@@ -1,35 +1,31 @@
-import Header from '../components/header';
-import OfferGallery from '../components/offers-components/offer-gallery';
-import OfferDetails from '../components/offers-components/offer-details';
-import OfferHost from '../components/offers-components/offer-host';
-import OfferReviews from '../components/offers-components/offer-reviews';
-import NearPlaces from '../components/offers-components/near-places';
+import { Header } from '../components/header';
+import { OfferGallery } from '../components/offers-components/offer-gallery';
+import { OfferDetails } from '../components/offers-components/offer-details';
+import { OfferHost } from '../components/offers-components/offer-host';
+import { OfferReviews } from '../components/offers-components/offer-reviews';
+import { NearPlaces } from '../components/offers-components/near-places';
 import InsideAmenitiesItem from '../components/offers-components/inside-amenities-item';
 import Error404 from './error/error-404';
 import Map from '../components/map/map';
+import Spinner from '../components/spinner/spinner';
 
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch, } from 'react-redux';
-import { useEffect } from 'react';
 
-import { AppDispatch } from '../types/state';
 import { fetchNearbyOffersById, fetchOfferById, fetchReviewsByOfferId } from '../store/api-action';
 import { clearOffer } from '../store/current-offer-slice';
 import { clearReviews } from '../store/reviews-slice';
-
-
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { COUNT_NEARBY_OFFERS, MAX_IMAGES_COUNT, AuthorizationStatus } from '../consts/consts';
-import { State } from '../types/state';
-import Spinner from '../components/spinner/spinner';
 
 function OfferPage() {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const authStatus = useSelector((state: State) => state.user.authorizationStatus);
-  const { currentOffer, isLoading, isOfferNotFound, nearbyOffers, } = useSelector((state: State) => state.currentOffer);
-  const { reviews } = useSelector((state: State) => state.reviews);
+  const authStatus = useAppSelector((state) => state.userReducer.authorizationStatus);
+  const { currentOffer, isLoading, isOfferNotFound, nearbyOffers, } = useAppSelector((state) => state.currentOfferReducer);
+  const { reviews } = useAppSelector((state) => state.reviewsReducer);
 
   useEffect(() => {
     if (id) {

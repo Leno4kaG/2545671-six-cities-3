@@ -3,8 +3,8 @@ import { Offer } from '../types/offer';
 import { State } from '../types/state';
 import { createSelector } from '@reduxjs/toolkit';
 
-const getOffersFromState = (state: State) => state.offers.offers;
-const getCityNameFromState = (state: State) => state.offers.city.name;
+const getOffersFromState = (state: State) => state.offerReducer.offers;
+const getCityNameFromState = (state: State) => state.offerReducer.city.name;
 
 export function getBaseCards(offers: Offer[], cityName: string): Offer[] {
   const cityOffers = offers.filter((offer) => offer.city.name === cityName);

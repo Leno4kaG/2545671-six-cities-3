@@ -1,10 +1,11 @@
 import { formatDateForTime, getRating } from '../../utils/utils';
 import { Review } from '../../types/review';
+import React from 'react';
 
 type ReviewItemProps = {
   data: Review;
 }
-function ReviewItem({ data }: ReviewItemProps): JSX.Element {
+function ReviewItemComponent({ data }: ReviewItemProps): JSX.Element {
   const { text, dateTime } = formatDateForTime(data.date, 'en-US');
   const newRating = getRating(data.rating);
 
@@ -40,4 +41,4 @@ function ReviewItem({ data }: ReviewItemProps): JSX.Element {
   );
 }
 
-export default ReviewItem;
+export const ReviewItem = React.memo(ReviewItemComponent);

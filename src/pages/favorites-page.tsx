@@ -1,17 +1,15 @@
-import Header from '../components/header';
+import { Header } from '../components/header';
 import Footer from '../components/footer';
-import PlaceCard from '../components/place-card';
-
-import { useSelector } from 'react-redux';
+import { PlaceCard } from '../components/place-card';
 
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { selectFavoritesByCity, selectFavoriteCities } from '../selectors/favorites-selector';
+import { useAppSelector } from '../hooks/hooks';
 
-
-function FavoritesPage() {
-  const favoritesByCity = useSelector(selectFavoritesByCity);
-  const favoriteCities = useSelector(selectFavoriteCities);
+function FavoritesPage(): JSX.Element {
+  const favoritesByCity = useAppSelector(selectFavoritesByCity);
+  const favoriteCities = useAppSelector(selectFavoriteCities);
 
   if (favoriteCities.length === 0) {
     return (

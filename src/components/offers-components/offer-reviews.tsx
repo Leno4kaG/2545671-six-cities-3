@@ -1,5 +1,6 @@
-import ReviewItem from './review-item';
-import ReviewsForm from './reviews-form';
+import { ReviewItem } from './review-item';
+import { ReviewsForm } from './reviews-form';
+import React from 'react';
 
 import { Review } from '../../types/review';
 import { sortReviewsByDate } from '../../utils/utils';
@@ -10,7 +11,7 @@ type OfferReviewsProps = {
   isAuth: boolean;
 }
 
-function OfferReviews({ reviews, isAuth }: OfferReviewsProps): JSX.Element {
+function OfferReviewsComponent({ reviews, isAuth }: OfferReviewsProps): JSX.Element {
   const sortedReviews = sortReviewsByDate(reviews).slice(0, MAX_REVIEW_COUNT);
 
   return (
@@ -31,4 +32,4 @@ function OfferReviews({ reviews, isAuth }: OfferReviewsProps): JSX.Element {
   );
 }
 
-export default OfferReviews;
+export const OfferReviews = React.memo(OfferReviewsComponent);

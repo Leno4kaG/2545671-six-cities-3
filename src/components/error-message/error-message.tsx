@@ -1,12 +1,10 @@
-import { useSelector } from 'react-redux';
-import { State } from '../../types/state';
+import React from 'react';
+import { useAppSelector } from '../../hooks/hooks';
 import './error-message.css';
 
-export function ErrorMessage(): JSX.Element | null {
-  const error = useSelector((state: State) => state.offers.error);
-  return (error) ?
-    <div className="error-message">
-      {error}
-    </div>
-    : null;
+function ErrorMessageComponent(): JSX.Element | null {
+  const error = useAppSelector((state) => state.offerReducer.error ?? null);
+  return error ? <div className="error-message">{error}</div> : null;
 }
+
+export const ErrorMessage = React.memo(ErrorMessageComponent);

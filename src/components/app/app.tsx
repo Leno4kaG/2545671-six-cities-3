@@ -10,13 +10,12 @@ import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute } from '../../consts/consts';
 
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../types/state';
+import { useAppDispatch } from '../../hooks/hooks';
 import { useEffect } from 'react';
 import { checkAuthAction } from '../../store/api-action';
 
 function App() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkAuthAction());
