@@ -1,29 +1,28 @@
-import Logo from './logo/logo';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppDispatch } from '../types/state';
-import { State } from '../types/state';
+
+import Logo from './logo/logo';
 import { AuthorizationStatus, AppRoute } from '../consts/consts';
 import { logoutAction } from '../store/api-action';
-
+import { useAppSelector, useAppDispatch } from '../hooks/hooks';
 
 type HeaderProps = {
   showNav?: boolean;
 };
 
-function Header({ showNav = true }: HeaderProps): JSX.Element {
-  const dispatch = useDispatch<AppDispatch>();
+function HeaderComponent({ showNav = true }: HeaderProps): JSX.Element {
+  const dispatch = useAppDispatch();
 
-  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
-
-  const user = useSelector((state: State) => state.user.user);
+  const authorizationStatus = useAppSelector((state) => state.userReducer.authorizationStatus);
+  const user = useAppSelector((state) => state.userReducer.user);
+  const favoritesCount = useAppSelector((state) => state.favoritesReducer.favorites.length);
 
   const isLoggedIn: boolean = authorizationStatus === AuthorizationStatus.Auth;
 
   const authBlock = isLoggedIn ? (
     <>
       <span className="header__user-name user__name">{user?.email ?? ''}</span>
-      <span className="header__favorite-count">3</span>
+      <span className="header__favorite-count">{favoritesCount}</span>
     </>
   ) : (
     <span className="header__login">Sign in</span>
@@ -72,4 +71,4 @@ function Header({ showNav = true }: HeaderProps): JSX.Element {
   );
 }
 
-export default Header;
+export const Header = React.memo(HeaderComponent);

@@ -1,13 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import React from 'react';
 
 import { CITIES } from '../../consts/consts';
-import { State, AppDispatch } from '../../types/state';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { setCity } from '../../store/offers-slice';
 
-function LocationsList(): JSX.Element {
-  const dispatch = useDispatch<AppDispatch>();
-  const activeCityName = useSelector((state: State) => state.offers.city.name);
+function LocationsListComponent(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const activeCityName = useAppSelector((state) => state.offerReducer.city.name);
   return (
     <ul className="locations__list tabs__list">
       {CITIES.map((city) => {
@@ -31,4 +31,4 @@ function LocationsList(): JSX.Element {
   );
 }
 
-export default LocationsList;
+export const LocationsList = React.memo(LocationsListComponent);

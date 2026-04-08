@@ -1,8 +1,9 @@
 import { Offer } from '../../types/offer';
+import React from 'react';
 
 type OfferHostProps = Pick<Offer, 'host' | 'description'>;
 
-function OfferHost({ host, description }: OfferHostProps): JSX.Element {
+function OfferHostComponent({ host, description }: OfferHostProps): JSX.Element {
 
   return (
     <div className="offer__host">
@@ -33,4 +34,4 @@ function OfferHost({ host, description }: OfferHostProps): JSX.Element {
   );
 }
 
-export default OfferHost;
+export const OfferHost = React.memo(OfferHostComponent);

@@ -1,12 +1,12 @@
-import PlaceCard from '../place-card';
-
+import { PlaceCard } from '../place-card';
+import React from 'react';
 import { Offer } from '../../types/offer';
 
 type NearPlacesProps = {
   offers: Offer[];
 }
 
-function NearPlaces({ offers }: NearPlacesProps): JSX.Element {
+function NearPlacesComponent({ offers }: NearPlacesProps): JSX.Element {
 
   return (
     <section className="near-places places">
@@ -24,4 +24,4 @@ function NearPlaces({ offers }: NearPlacesProps): JSX.Element {
   );
 }
 
-export default NearPlaces;
+export const NearPlaces = React.memo(NearPlacesComponent);

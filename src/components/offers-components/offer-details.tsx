@@ -1,12 +1,14 @@
 import { Offer } from '../../types/offer';
 import { getRating, capitalizeFirst } from '../../utils/utils';
 import { MIN_COUNT } from '../../consts/consts';
+import { BookmarksButton } from '../bookmarks-button';
+import React from 'react';
 
 type OfferDetails = {
   data: Offer;
 };
 
-function OfferDetails({ data }: OfferDetails) {
+function OfferDetailsComponent({ data }: OfferDetails) {
   const { title, isPremium, rating, type, bedrooms, maxAdults, price } = data;
 
   const newRating = getRating(rating);
@@ -21,12 +23,12 @@ function OfferDetails({ data }: OfferDetails) {
         <h1 className="offer__name">
           {title}
         </h1>
-        <button className="offer__bookmark-button button" type="button">
-          <svg className="offer__bookmark-icon" width="31" height="33">
-            <use xlinkHref="#icon-bookmark"></use>
-          </svg>
-          <span className="visually-hidden">To bookmarks</span>
-        </button>
+        <BookmarksButton
+          offer={data}
+          className='offer__bookmark-button button'
+          iconClassName='offer__bookmark-icon'
+          variant='large'
+        />
       </div>
       <div className="offer__rating rating">
         <div className="offer__stars rating__stars">
@@ -56,4 +58,4 @@ function OfferDetails({ data }: OfferDetails) {
   );
 }
 
-export default OfferDetails;
+export const OfferDetails = React.memo(OfferDetailsComponent);

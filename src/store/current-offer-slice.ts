@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Offer } from '../types/offer';
 
-import { fetchOfferById, fetchNearbyOffersById } from './api-action';
+import { fetchOfferById, fetchNearbyOffersById, postFavoriteAction } from './api-action';
 
 type CurrentOfferSlice = {
   currentOffer: Offer | null;
@@ -49,6 +49,13 @@ const currentOfferSlice = createSlice({
       })
       .addCase(fetchNearbyOffersById.rejected, (state) => {
         state.nearbyOffers = [];
+      })
+      .addCase(postFavoriteAction.fulfilled, (state, action: PayloadAction<Offer>) => {
+        const updated = action.payload;
+        if (state.currentOffer && state.currentOffer.id === updated.id) {
+          state.currentOffer = updated;
+        }
+        state.nearbyOffers = state.nearbyOffers.map((offer) => offer.id === updated.id ? updated : offer);
       });
   }
 });

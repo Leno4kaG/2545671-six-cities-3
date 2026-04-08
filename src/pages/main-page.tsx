@@ -1,4 +1,4 @@
-import Header from '../components/header';
+import { Header } from '../components/header';
 import NavTabs from '../components/main-components/nav-tabs';
 import Sort from '../components/main-components/sort';
 import OfferList from '../components/main-components/offer-list';
@@ -8,9 +8,7 @@ import MainEmpty from '../components/main-components/main-empty';
 
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { State, AppDispatch } from '../types/state';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 import { PlacesSorting, AuthorizationStatus } from '../consts/consts';
 import { createFilteredAndSortedSelector } from '../selectors/offers-selectors';
@@ -20,18 +18,18 @@ import { fetchAllOffers } from '../store/api-action';
 function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
-  const selectedCity = useSelector((state: State) => state.offers.city);
+  const selectedCity = useAppSelector((state) => state.offerReducer.city);
 
   const [selectedSorting, setSelectedSorting] = useState<PlacesSorting>(PlacesSorting.Popular);
 
   const selector = useMemo(() => createFilteredAndSortedSelector(), []);
-  const sortedOffers = useSelector((state: State) => selector(state, selectedSorting));
+  const sortedOffers = useAppSelector((state) => selector(state, selectedSorting));
 
-  const isOffersLoading = useSelector((state: State) => state.offers.isLoading);
+  const isOffersLoading = useAppSelector((state) => state.offerReducer.isLoading);
 
-  const authorizationStatus = useSelector((state: State) => state.user.authorizationStatus);
+  const authorizationStatus = useAppSelector((state) => state.userReducer.authorizationStatus);
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchAllOffers());
@@ -47,7 +45,10 @@ function MainPage(): JSX.Element {
     <div className="page page--gray page--main">
       <Helmet><title>6 cities</title></Helmet>
       <Header />
-      <main className="page__main page__main--index">
+      <main
+        className={`page__main page__main--index ${sortedOffers.length === 0 ?
+          'page__main--index-empty' : ''}`}
+      >
         <h1 className="visually-hidden">Cities</h1>
         <NavTabs />
         <div className="cities">

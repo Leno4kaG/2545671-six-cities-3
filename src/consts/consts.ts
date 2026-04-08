@@ -85,9 +85,11 @@ export const RATING = [
   { value: 1, label: 'terribly' }
 ];
 
+export enum RatingLimits {
+  Min = 50,
+  Max = 300,
+}
 
-export const MIN_REVIEW_LENGTH = 50;
-export const MAX_REVIEW_LENGTH = 300;
 export const MIN_COUNT = 1;
 export const COUNT_NEARBY_OFFERS = 3;
 export const MAX_IMAGES_COUNT = 6;

@@ -1,11 +1,9 @@
 import { Fragment, ReactEventHandler, useState, FormEvent } from 'react';
-
-import { RATING, MIN_REVIEW_LENGTH, MAX_REVIEW_LENGTH } from '../../consts/consts';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
+import React from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { postReviewAction } from '../../store/api-action';
-import { AppDispatch, State } from '../../types/state';
+import { RATING, RatingLimits } from '../../consts/consts';
 
 type ChangeHandle = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -14,10 +12,10 @@ type ReviewState = {
   review: string;
 };
 
-function ReviewsForm() {
+function ReviewsFormComponent(): JSX.Element {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch<AppDispatch>();
-  const { isPosting } = useSelector((state: State) => state.reviews);
+  const dispatch = useAppDispatch();
+  const { isPosting } = useAppSelector((state) => state.reviewsReducer);
   const [review, setReview] = useState<ReviewState>({ rating: 0, review: '' });
 
   const handleChange: ChangeHandle = (evt) => {
@@ -25,7 +23,7 @@ function ReviewsForm() {
     setReview({ ...review, [name]: name === 'rating' ? Number(value) : value });
   };
 
-  const isInvalid = (review.rating === 0 || review.review.length < MIN_REVIEW_LENGTH || review.review.length > MAX_REVIEW_LENGTH);
+  const isInvalid = (review.rating === 0 || review.review.length < Number(RatingLimits.Min) || review.review.length > Number(RatingLimits.Max));
 
   const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -88,7 +86,7 @@ function ReviewsForm() {
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{MIN_REVIEW_LENGTH} characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{RatingLimits.Min} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
@@ -102,4 +100,4 @@ function ReviewsForm() {
   );
 }
 
-export default ReviewsForm;
+export const ReviewsForm = React.memo(ReviewsFormComponent);

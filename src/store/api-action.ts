@@ -6,7 +6,9 @@ import { AuthData } from '../types/auth-data';
 import { dropToken, saveToken } from '../services/token';
 import { AuthInfo } from '../types/auth-info';
 import { setOfferNotFound } from './current-offer-slice';
+import { setUser, setAuthorizationStatus } from './user-slice';
 import { Review } from '../types/review';
+import { setError } from './offers-slice';
 
 export const fetchAllOffers = createAsyncThunk<
   Offer[],
@@ -62,6 +64,18 @@ export const fetchReviewsByOfferId = createAsyncThunk<
   }
 );
 
+export const fetchFavoriteAction = createAsyncThunk<
+  Offer[],
+  void,
+  { extra: AxiosInstance }
+>(
+  'favorite/fetchFavorite',
+  async (_arg, { extra: api }) => {
+    const response = await api.get<Offer[]>('/favorite');
+    return response.data;
+  }
+);
+
 export const postReviewAction = createAsyncThunk<
   Review,
   { id: string; rating: number; comment: string },
@@ -70,6 +84,18 @@ export const postReviewAction = createAsyncThunk<
   'reviews/postReview',
   async ({ id, rating, comment }, { extra: api }) => {
     const response = await api.post<Review>(`/comments/${id}`, { comment, rating });
+    return response.data;
+  }
+);
+
+export const postFavoriteAction = createAsyncThunk<
+  Offer,
+  { offerId: string; status: number },
+  { extra: AxiosInstance }
+>(
+  'favorite/postFavorite',
+  async ({ offerId, status }, { extra: api }) => {
+    const response = await api.post<Offer>(`/favorite/${offerId}/${status}`);
     return response.data;
   }
 );
@@ -83,10 +109,12 @@ export const checkAuthAction = createAsyncThunk<
   async (_arg, { dispatch, extra: api }) => {
     try {
       const response = await api.get<AuthInfo>('/login');
-      dispatch({ type: 'user/setUser', payload: response.data });
-      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.Auth });
+      dispatch(setUser(response.data));
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+      dispatch(fetchFavoriteAction());
     } catch {
-      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
+      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+      dispatch(setUser(null));
     }
   }
 );
@@ -101,11 +129,12 @@ export const loginAction = createAsyncThunk<
     try {
       const data = await api.post<AuthInfo>('/login', { email, password });
       saveToken(data.data.token);
-      dispatch({ type: 'user/setUser', payload: data.data });
-      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.Auth });
+      dispatch(setUser(data.data));
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+      dispatch(fetchFavoriteAction());
     } catch {
-      dispatch({ type: 'user/setError', payload: 'Access deny' });
-      dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
+      dispatch(setError('Access deny'));
+      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
   }
 );
@@ -119,8 +148,8 @@ export const logoutAction = createAsyncThunk<
   async (_arg, { dispatch, extra: api }) => {
     await api.delete('/logout');
     dropToken();
-    dispatch({ type: 'user/setUser', payload: null });
-    dispatch({ type: 'user/setAuthorizationStatus', payload: AuthorizationStatus.NoAuth });
+    dispatch(setUser(null));
+    dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
   },
 );
 
@@ -128,6 +157,6 @@ export const clearErrorAction = createAsyncThunk(
   'main/clearError',
   (_arg, { dispatch }) => {
     setTimeout(() => {
-      dispatch({ type: 'offers/setError', payload: null });
+      dispatch(setError(null));
     }, TIMEOUT_SHOW_ERROR);
   });

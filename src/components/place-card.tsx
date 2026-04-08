@@ -1,7 +1,8 @@
 import { Offer } from '../types/offer';
 import { getRating } from '../utils/utils';
-
 import { Link } from 'react-router-dom';
+import React from 'react';
+import { BookmarksButton } from './bookmarks-button';
 
 const configCard = {
   cities: {
@@ -24,7 +25,7 @@ type PlaceCard = {
   onPlaceCardHover?: (offerId?: string) => void;
 }
 
-function PlaceCard({ data, variant, onPlaceCardHover }: PlaceCard): JSX.Element {
+function PlaceCardComponent({ data, variant, onPlaceCardHover }: PlaceCard): JSX.Element {
   const newRating = getRating(data.rating);
   const imageSize = configCard[variant];
   const handleMouseEnter = () => onPlaceCardHover?.(data.id);
@@ -44,7 +45,7 @@ function PlaceCard({ data, variant, onPlaceCardHover }: PlaceCard): JSX.Element 
         </div>
       )}
       <div className={`${variant}__image-wrapper place-card__image-wrapper`}>
-        <Link to={`offer/${data.id}`}>
+        <Link to={`/offer/${data.id}`}>
           <img
             className="place-card__image"
             src={data.previewImage}
@@ -60,18 +61,12 @@ function PlaceCard({ data, variant, onPlaceCardHover }: PlaceCard): JSX.Element 
             <b className="place-card__price-value">&euro;{data.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className={`place-card__bookmark-button ${data.isFavorite ? 'place-card__bookmark-button--active' : ''} button`} type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
-            >
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarksButton
+            offer={data}
+            className={`place-card__bookmark-button ${data.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
+            iconClassName='place-card__bookmark-icon'
+            variant='small'
+          />
         </div >
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -80,7 +75,7 @@ function PlaceCard({ data, variant, onPlaceCardHover }: PlaceCard): JSX.Element 
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`offer/${data.id}`}>{data.title}</Link>
+          <Link to={`/offer/${data.id}`}>{data.title}</Link>
         </h2>
         <p className="place-card__type">{data.type}</p>
       </div >
@@ -88,4 +83,4 @@ function PlaceCard({ data, variant, onPlaceCardHover }: PlaceCard): JSX.Element 
   );
 }
 
-export default PlaceCard;
+export const PlaceCard = React.memo(PlaceCardComponent);

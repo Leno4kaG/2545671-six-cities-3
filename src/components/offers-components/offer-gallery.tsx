@@ -1,8 +1,10 @@
+import React from 'react';
+
 type OfferGalleryProps = {
   images: string[];
 }
 
-function OfferGallery({ images }: OfferGalleryProps): JSX.Element {
+function OfferGalleryComponent({ images }: OfferGalleryProps): JSX.Element {
   return (
     <>
       {images.map((src) => (
@@ -14,4 +16,4 @@ function OfferGallery({ images }: OfferGalleryProps): JSX.Element {
   );
 }
 
-export default OfferGallery;
+export const OfferGallery = React.memo(OfferGalleryComponent);

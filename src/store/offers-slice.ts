@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { City, Offer } from '../types/offer';
-import { fetchAllOffers } from './api-action';
+import { fetchAllOffers, postFavoriteAction } from './api-action';
 import { CITIES } from '../consts/consts';
 
 
@@ -43,9 +43,14 @@ const offerSlice = createSlice({
       .addCase(fetchAllOffers.rejected,
         (state: OffersState) => {
           state.isLoading = false;
-        });
-  },
-});
+        })
+      .addCase(postFavoriteAction.fulfilled, (state, action: PayloadAction<Offer>) => {
+        const updated = action.payload;
+        state.offers = state.offers.map((offer) => offer.id === updated.id ? updated : offer);
+      });
+  }
+},
+);
 
 export const { setCity, setError } = offerSlice.actions;
 export const offerReducer = offerSlice.reducer;
