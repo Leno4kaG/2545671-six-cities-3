@@ -3,7 +3,7 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus, AppRoute } from '../consts/consts';
-import { postFavoriteAction } from '../store/api-action';
+import { postFavoriteAction } from '../store/api-action/api-action';
 
 const configButton = {
   small: {
@@ -18,12 +18,11 @@ const configButton = {
 
 type BookmarksButtonProps = {
   offer: Offer;
-  className: string;
-  iconClassName: string;
+  context: 'place' | 'offer';
   variant: 'small' | 'large';
 }
 
-function BookmarksButtonComponent({ offer, className, iconClassName, variant }:
+function BookmarksButtonComponent({ offer, context, variant }:
   BookmarksButtonProps): JSX.Element {
   const size = configButton[variant];
   const dispatch = useAppDispatch();
@@ -39,10 +38,15 @@ function BookmarksButtonComponent({ offer, className, iconClassName, variant }:
     dispatch(postFavoriteAction({ offerId: offer.id, status }));
   };
 
+  const baseClass = context === 'offer' ? 'offer__bookmark-button' : 'place-card__bookmark-button';
+  const iconClass = context === 'offer' ? 'offer__bookmark-icon' : 'place-card__bookmark-icon';
+  const activeModifier = offer.isFavorite ? `${baseClass}--active` : '';
+  const buttonClassName = `${baseClass} ${activeModifier} button`;
+
   return (
-    <button className={className} type="button" onClick={handleButtonClick}>
+    <button className={buttonClassName} type="button" onClick={handleButtonClick}>
       <svg
-        className={iconClassName}
+        className={iconClass}
         width={size.imageWidth}
         height={size.imageHeight}
       >

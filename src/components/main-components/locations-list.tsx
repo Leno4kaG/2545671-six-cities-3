@@ -3,7 +3,7 @@ import React from 'react';
 
 import { CITIES } from '../../consts/consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { setCity } from '../../store/offers-slice';
+import { setCity } from '../../store/offers-slice/offers-slice';
 
 function LocationsListComponent(): JSX.Element {
   const dispatch = useAppDispatch();

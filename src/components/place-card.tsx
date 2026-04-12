@@ -31,6 +31,8 @@ function PlaceCardComponent({ data, variant, onPlaceCardHover }: PlaceCard): JSX
   const handleMouseEnter = () => onPlaceCardHover?.(data.id);
   const handleMouseLeave = () => onPlaceCardHover?.();
 
+  const infoClassName = `place-card__info ${variant === 'favorites' ? 'favorites-card__info' : ''}`;
+
   return (
     <article
       className={`${variant}__card place-card `}
@@ -55,7 +57,7 @@ function PlaceCardComponent({ data, variant, onPlaceCardHover }: PlaceCard): JSX
           />
         </Link>
       </div>
-      <div className={`place-card__info ${variant === 'favorites' ? 'favorites-card__info' : ''}`}>
+      <div className={infoClassName}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{data.price}</b>
@@ -63,8 +65,7 @@ function PlaceCardComponent({ data, variant, onPlaceCardHover }: PlaceCard): JSX
           </div>
           <BookmarksButton
             offer={data}
-            className={`place-card__bookmark-button ${data.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
-            iconClassName='place-card__bookmark-icon'
+            context='place'
             variant='small'
           />
         </div >

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Offer } from '../types/offer';
-import { fetchFavoriteAction, postFavoriteAction } from './api-action';
+import { Offer } from '../../types/offer';
+import { fetchFavoriteAction, postFavoriteAction } from '../api-action/api-action';
 
 
 type FavoritesState = {

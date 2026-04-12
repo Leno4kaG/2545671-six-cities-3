@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Review } from '../types/review';
+import { Review } from '../../types/review';
 
-import { fetchReviewsByOfferId, postReviewAction } from './api-action';
+import { fetchReviewsByOfferId, postReviewAction } from '../api-action/api-action';
 
 type ReviewsState = {
   reviews: Review[];

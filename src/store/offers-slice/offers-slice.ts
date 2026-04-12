@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { City, Offer } from '../types/offer';
-import { fetchAllOffers, postFavoriteAction } from './api-action';
-import { CITIES } from '../consts/consts';
+import { City, Offer } from '../../types/offer';
+import { fetchAllOffers, postFavoriteAction } from '../api-action/api-action';
+import { CITIES } from '../../consts/consts';
 
 
 type OffersState = {

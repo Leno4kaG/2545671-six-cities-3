@@ -18,6 +18,14 @@ export enum AppRoute {
   Error = '*'
 }
 
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Comments = '/comments',
+  Favorites = '/favorite',
+}
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
@@ -85,10 +93,10 @@ export const RATING = [
   { value: 1, label: 'terribly' }
 ];
 
-export enum RatingLimits {
-  Min = 50,
-  Max = 300,
-}
+export const RatingLimits = {
+  Min: 50,
+  Max: 300,
+} as const;
 
 export const MIN_COUNT = 1;
 export const COUNT_NEARBY_OFFERS = 3;
