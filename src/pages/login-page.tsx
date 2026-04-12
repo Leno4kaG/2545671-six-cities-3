@@ -3,11 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import { Header } from '../components/header';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { setError } from '../store/offers-slice';
+import { setError } from '../store/offers-slice/offers-slice';
 
 
 import { Navigate } from 'react-router-dom';
-import { loginAction } from '../store/api-action';
+import { loginAction } from '../store/api-action/api-action';
 import { AuthorizationStatus, AppRoute } from '../consts/consts';
 
 function LoginPage(): JSX.Element {
@@ -48,7 +48,7 @@ function LoginPage(): JSX.Element {
   }
 
   return (
-    <div className="page page--gray page--login">
+    <div className="page page--gray page--login" data-testid="page-login">
       <Helmet><title>6 cities: authorization</title></Helmet>
       <Header showNav={false} />
       <main className="page__main page__main--login">

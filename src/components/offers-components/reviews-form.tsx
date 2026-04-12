@@ -2,7 +2,7 @@ import { Fragment, ReactEventHandler, useState, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
-import { postReviewAction } from '../../store/api-action';
+import { postReviewAction } from '../../store/api-action/api-action';
 import { RATING, RatingLimits } from '../../consts/consts';
 
 type ChangeHandle = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
@@ -23,7 +23,7 @@ function ReviewsFormComponent(): JSX.Element {
     setReview({ ...review, [name]: name === 'rating' ? Number(value) : value });
   };
 
-  const isInvalid = (review.rating === 0 || review.review.length < Number(RatingLimits.Min) || review.review.length > Number(RatingLimits.Max));
+  const isInvalid = (review.rating === 0 || review.review.length < RatingLimits.Min || review.review.length > RatingLimits.Max);
 
   const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

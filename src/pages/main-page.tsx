@@ -1,10 +1,10 @@
 import { Header } from '../components/header';
-import NavTabs from '../components/main-components/nav-tabs';
+import NavTabs from '../components/main-components/nav-tabs/nav-tabs';
 import Sort from '../components/main-components/sort';
 import OfferList from '../components/main-components/offer-list';
 import Map from '../components/map/map';
 import Spinner from '../components/spinner/spinner';
-import MainEmpty from '../components/main-components/main-empty';
+import MainEmpty from '../components/main-components/main-empty/main-empty';
 
 import { Helmet } from 'react-helmet-async';
 import { useState, useEffect, useMemo } from 'react';
@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 import { PlacesSorting, AuthorizationStatus } from '../consts/consts';
 import { createFilteredAndSortedSelector } from '../selectors/offers-selectors';
-import { fetchAllOffers } from '../store/api-action';
+import { fetchAllOffers } from '../store/api-action/api-action';
 
 
 function MainPage(): JSX.Element {
@@ -39,15 +39,29 @@ function MainPage(): JSX.Element {
     return <Spinner />;
   }
 
-  const isOffersAvailable = !isOffersLoading && sortedOffers.length > 0;
+  if (isOffersLoading) {
+    return (
+      <div className="page page--gray page--main">
+        <Helmet><title>6 cities</title></Helmet>
+        <Header />
+        <main className="page__main page__main--index">
+          <Spinner />
+        </main>
+      </div>
+    );
+  }
+
+  const isOffersAvailable = sortedOffers.length > 0;
+
+  const mainClassName = `page__main page__main--index ${sortedOffers.length === 0 ?
+    'page__main--index-empty' : ''}`;
 
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--main" data-testid="page-main">
       <Helmet><title>6 cities</title></Helmet>
       <Header />
       <main
-        className={`page__main page__main--index ${sortedOffers.length === 0 ?
-          'page__main--index-empty' : ''}`}
+        className={mainClassName}
       >
         <h1 className="visually-hidden">Cities</h1>
         <NavTabs />
@@ -58,14 +72,10 @@ function MainPage(): JSX.Element {
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{sortedOffers.length} places to stay in {selectedCity.name}</b>
                 <Sort selected={selectedSorting} onChange={setSelectedSorting} />
-                {isOffersLoading ? (
-                  <Spinner />
-                ) : (
-                  < OfferList
-                    offers={sortedOffers}
-                    onActiveOfferChange={setActiveOfferId}
-                  />
-                )}
+                < OfferList
+                  offers={sortedOffers}
+                  onActiveOfferChange={setActiveOfferId}
+                />
               </section>
               <div className="cities__right-section">
                 {selectedCity &&

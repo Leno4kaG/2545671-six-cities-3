@@ -1,5 +1,5 @@
 import { Header } from '../components/header';
-import Footer from '../components/footer';
+import Footer from '../components/footer/footer';
 import { PlaceCard } from '../components/place-card';
 
 import { Helmet } from 'react-helmet-async';
@@ -34,7 +34,7 @@ function FavoritesPage(): JSX.Element {
     );
   }
   return (
-    <div className="page">
+    <div className="page" data-testid="page-favorites">
       <Helmet><title>6 cities: favorites</title></Helmet>
       <Header />
       <main className="page__main page__main--favorites">

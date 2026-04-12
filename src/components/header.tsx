@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Logo from './logo/logo';
 import { AuthorizationStatus, AppRoute } from '../consts/consts';
-import { logoutAction } from '../store/api-action';
+import { logoutAction } from '../store/api-action/api-action';
 import { useAppSelector, useAppDispatch } from '../hooks/hooks';
 
 type HeaderProps = {

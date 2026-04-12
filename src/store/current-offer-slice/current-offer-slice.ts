@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Offer } from '../types/offer';
+import { Offer } from '../../types/offer';
 
-import { fetchOfferById, fetchNearbyOffersById, postFavoriteAction } from './api-action';
+import { fetchOfferById, fetchNearbyOffersById, postFavoriteAction } from '../api-action/api-action';
 
 type CurrentOfferSlice = {
   currentOffer: Offer | null;

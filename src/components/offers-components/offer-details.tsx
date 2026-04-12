@@ -25,8 +25,7 @@ function OfferDetailsComponent({ data }: OfferDetails) {
         </h1>
         <BookmarksButton
           offer={data}
-          className='offer__bookmark-button button'
-          iconClassName='offer__bookmark-icon'
+          context='offer'
           variant='large'
         />
       </div>
