@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Header } from '../components/header';
-import { FormEvent, useRef, useEffect, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setError, setCity } from '../store/offers-slice/offers-slice';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -20,14 +20,7 @@ function LoginPage(): JSX.Element {
     (state) => state.userReducer.authorizationStatus
   );
 
-  //const [quickCity, setQuickCity] = useState(() => CITIES[getRandomInteger(0, CITIES.length - 1)]);
-  const [quickCity] = useState(() => CITIES[Math.floor(Math.random() * CITIES.length)]);
-
-
-  /* useEffect(() => {
-     const randomCities = CITIES[getRandomInteger(0, CITIES.length - 1)];
-     setQuickCity(randomCities);
-   }, []);*/
+  const [quickCity] = useState(() => CITIES[getRandomInteger(0, CITIES.length - 1)]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
