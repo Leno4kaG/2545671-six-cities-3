@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 import FavoritesPage from '../../pages/favorites-page';
-import MainPage from '../../pages/main-page';
+import MainPage from '../../pages/main-page/main-page';
 import OfferPage from '../../pages/offer-page';
 import Error404 from '../../pages/error/error-404';
 import LoginPage from '../../pages/login-page';

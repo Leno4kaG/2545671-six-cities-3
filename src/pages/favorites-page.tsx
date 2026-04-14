@@ -4,12 +4,22 @@ import { PlaceCard } from '../components/place-card';
 
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+
 import { selectFavoritesByCity, selectFavoriteCities } from '../selectors/favorites-selector';
-import { useAppSelector } from '../hooks/hooks';
+import { useAppSelector, useAppDispatch } from '../hooks/hooks';
+import { fetchFavoriteAction } from '../store/api-action/api-action';
+
 
 function FavoritesPage(): JSX.Element {
   const favoritesByCity = useAppSelector(selectFavoritesByCity);
   const favoriteCities = useAppSelector(selectFavoriteCities);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteAction());
+  }, [dispatch]);
 
   if (favoriteCities.length === 0) {
     return (

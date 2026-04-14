@@ -29,7 +29,9 @@ export function sortReviewsByDate(reviews: Review[]): Review[] {
 }
 
 export function getRating(rating: number): string {
-  return `${Math.max(0, Math.min(MAX_RATING, Number(rating) || 0)) * PERCENT_PER_STAR}%`;
+  const bounded = Math.min(Math.max(Number(rating), 0), MAX_RATING);
+  const percent = Math.round(bounded) * PERCENT_PER_STAR;
+  return `${percent}%`;
 }
 
 export function getRandomCards<T>(data: T[], count: number): T[] {

@@ -10,7 +10,7 @@ import { makeFakeState } from '../../utils/mocks';
 import mockOffers from '../../mock/mock-offers';
 import type { State, AppDispatch } from '../../types/state';
 
-vi.mock('../../pages/main-page', () => ({ __esModule: true, default: () => <div data-testid="page-main">Main</div> }));
+vi.mock('../../pages/main-page/main-page', () => ({ __esModule: true, default: () => <div data-testid="page-main">Main</div> }));
 vi.mock('../../pages/offer-page', () => ({ __esModule: true, default: () => <div data-testid="page-offer">Offer</div> }));
 vi.mock('../../pages/favorites-page', () => ({ __esModule: true, default: () => <div data-testid="page-favorites">Favorites</div> }));
 vi.mock('../../pages/login-page', () => ({ __esModule: true, default: () => <div data-testid="page-login">Login</div> }));

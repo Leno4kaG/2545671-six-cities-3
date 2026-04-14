@@ -2,11 +2,11 @@ import { createSelector } from '@reduxjs/toolkit';
 import { State } from '../types/state';
 import { Offer } from '../types/offer';
 
-const selectOffers = (state: State) => state.offerReducer.offers;
+const selectFavorites = (state: State) => state.favoritesReducer.favorites;
 
 export const selectFavoriteOffers = createSelector(
-  [selectOffers],
-  (offers): Offer[] => offers.filter((offer) => offer.isFavorite)
+  [selectFavorites],
+  (favorites): Offer[] => favorites
 );
 
 export const selectFavoritesByCity = createSelector(

@@ -35,7 +35,7 @@ function OfferDetailsComponent({ data }: OfferDetails) {
           <span className="visually-hidden">Rating</span>
         </div>
         <span className="offer__rating-value rating__value">
-          {Math.round(rating)}
+          {rating}
         </span>
       </div>
       <ul className="offer__features">

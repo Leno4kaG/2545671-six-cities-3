@@ -40,7 +40,7 @@ function Sort({ selected, onChange }: SortProps): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      {isSortOpen && <SortList selected={selected} onChange={handleSortChange} />}
+      <SortList selected={selected} onChange={handleSortChange} isOpen={isSortOpen} />
     </form>
   );
 }
