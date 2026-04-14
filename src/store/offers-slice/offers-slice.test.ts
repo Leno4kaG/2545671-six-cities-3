@@ -1,6 +1,6 @@
 import { Offer } from '../../types/offer';
 import { City } from '../../types/offer';
-import { CITIES } from '../../consts/consts';
+import { cities } from '../../consts/consts';
 import { offerReducer, setCity, setError } from './offers-slice';
 import { fetchAllOffers, postFavoriteAction } from '../api-action/api-action';
 import mockOffers from '../../mock/mock-offers';
@@ -13,7 +13,7 @@ type OffersState = {
 }
 
 const initialState: OffersState = {
-  city: CITIES[0],
+  city: cities[0],
   offers: [],
   isLoading: false,
   error: null,
@@ -25,7 +25,7 @@ describe('Offers Slice', () => {
     expect(actual).toEqual(initialState);
   });
   it('setCity reducer should update city', () => {
-    const newCity = CITIES[2];
+    const newCity = cities[2];
     const next = offerReducer(initialState, setCity(newCity));
     expect(next.city).toEqual(newCity);
   });
@@ -63,7 +63,8 @@ describe('Offers Slice', () => {
       price: (originalOffers[1].price ?? 0) + 1
     };
 
-    const next = offerReducer(state, postFavoriteAction.fulfilled(updated, '', { offerId: updated.id, status: Number(updated.isFavorite) }));
+    const next = offerReducer(state, postFavoriteAction.fulfilled(
+      updated, '', { offerId: updated.id, status: Number(updated.isFavorite) }));
     expect(next.offers.find((offer) => offer.id === updated.id)).toEqual(updated);
     expect(next.offers.find((offer) => offer.id === originalOffers[0].id)).toEqual(originalOffers[0]);
   });

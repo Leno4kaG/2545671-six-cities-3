@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import React from 'react';
+import { memo } from 'react';
 
-import { CITIES } from '../../consts/consts';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { setCity } from '../../store/offers-slice/offers-slice';
+import { cities } from '../../consts/consts';
 
 function LocationsListComponent(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -12,14 +12,14 @@ function LocationsListComponent(): JSX.Element {
   return (
     <ul className="locations__list tabs__list">
 
-      {CITIES.map((city) => {
-        const activeClass = activeCityName === city.name ? ' tabs__item--active' : '';
+      {cities.map((city) => {
+        const activeClassName = activeCityName === city.name ? ' tabs__item--active' : '';
 
         return (
           <li className="locations__item" key={city.name}>
             <Link
               to="#"
-              className={`locations__item-link tabs__item ${activeClass}`}
+              className={`locations__item-link tabs__item ${activeClassName}`}
               onClick={(evt) => {
                 evt.preventDefault();
                 dispatch(setCity(city));
@@ -34,4 +34,4 @@ function LocationsListComponent(): JSX.Element {
   );
 }
 
-export const LocationsList = React.memo(LocationsListComponent);
+export const LocationsList = memo(LocationsListComponent);

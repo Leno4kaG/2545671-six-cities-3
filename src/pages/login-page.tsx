@@ -1,11 +1,12 @@
-import { Helmet } from 'react-helmet-async';
-import { Header } from '../components/header';
 import { FormEvent, useRef, useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+
+import { Header } from '../components/header';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setError, setCity } from '../store/offers-slice/offers-slice';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { loginAction } from '../store/api-action/api-action';
-import { AuthorizationStatus, AppRoute, CITIES } from '../consts/consts';
+import { AuthorizationStatus, AppRoute, cities } from '../consts/consts';
 import { getRandomInteger } from '../utils/utils';
 
 
@@ -20,7 +21,7 @@ function LoginPage(): JSX.Element {
     (state) => state.userReducer.authorizationStatus
   );
 
-  const [quickCity] = useState(() => CITIES[getRandomInteger(0, CITIES.length - 1)]);
+  const [quickCity] = useState(() => cities[getRandomInteger(0, cities.length - 1)]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

@@ -1,6 +1,6 @@
-import { Fragment, ReactEventHandler, useState, FormEvent } from 'react';
+import { Fragment, ReactEventHandler, useState, FormEvent, memo } from 'react';
 import { useParams } from 'react-router-dom';
-import React from 'react';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { postReviewAction } from '../../store/api-action/api-action';
 import { RATING, RatingLimits } from '../../consts/consts';
@@ -23,7 +23,9 @@ function ReviewsFormComponent(): JSX.Element {
     setReview({ ...review, [name]: name === 'rating' ? Number(value) : value });
   };
 
-  const isInvalid = (review.rating === 0 || review.review.length < RatingLimits.Min || review.review.length > RatingLimits.Max);
+  const isInvalid = (review.rating === 0 ||
+    review.review.length < RatingLimits.Min ||
+    review.review.length > RatingLimits.Max);
 
   const handleFormSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -47,7 +49,12 @@ function ReviewsFormComponent(): JSX.Element {
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={(evt) => void handleFormSubmit(evt)}>
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={(evt) => void handleFormSubmit(evt)}
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {RATING.map(({ value, label }) => (
@@ -86,7 +93,10 @@ function ReviewsFormComponent(): JSX.Element {
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{RatingLimits.Min} characters</b>.
+          To submit review please make sure to set
+          <span className="reviews__star">rating</span>
+          and describe your stay with at least{' '}
+          <b className="reviews__text-amount">{RatingLimits.Min} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"
@@ -100,4 +110,4 @@ function ReviewsFormComponent(): JSX.Element {
   );
 }
 
-export const ReviewsForm = React.memo(ReviewsFormComponent);
+export const ReviewsForm = memo(ReviewsFormComponent);

@@ -28,7 +28,9 @@ export function sortOffers(baseCards: Offer[], selectedSorting: PlacesSorting): 
 
 export const createFilteredAndSortedSelector = () =>
   createSelector(
-    [getOffersFromState, getCityNameFromState, (_: State, selectedSorting: PlacesSorting) => selectedSorting],
+    [getOffersFromState,
+      getCityNameFromState,
+      (_: State, selectedSorting: PlacesSorting) => selectedSorting],
     (offers, cityName, selectedSorting) => {
       const baseCards = getBaseCards(offers, cityName);
       return sortOffers(baseCards, selectedSorting);

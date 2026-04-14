@@ -1,6 +1,6 @@
 import { ReviewItem } from './review-item';
 import { ReviewsForm } from './reviews-form';
-import React from 'react';
+import { memo } from 'react';
 
 import { Review } from '../../types/review';
 import { sortReviewsByDate } from '../../utils/utils';
@@ -32,4 +32,4 @@ function OfferReviewsComponent({ reviews, isAuth }: OfferReviewsProps): JSX.Elem
   );
 }
 
-export const OfferReviews = React.memo(OfferReviewsComponent);
+export const OfferReviews = memo(OfferReviewsComponent);

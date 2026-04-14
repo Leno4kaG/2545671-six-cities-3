@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { formatDateForTime, getRating } from '../../utils/utils';
 import { Review } from '../../types/review';
-import React from 'react';
+
 
 type ReviewItemProps = {
   data: Review;
@@ -41,4 +42,4 @@ function ReviewItemComponent({ data }: ReviewItemProps): JSX.Element {
   );
 }
 
-export const ReviewItem = React.memo(ReviewItemComponent);
+export const ReviewItem = memo(ReviewItemComponent);

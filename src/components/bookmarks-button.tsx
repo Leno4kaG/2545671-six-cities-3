@@ -1,5 +1,6 @@
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { Offer } from '../types/offer';
 import { AuthorizationStatus, AppRoute } from '../consts/consts';
@@ -18,11 +19,11 @@ const configButton = {
 
 type BookmarksButtonProps = {
   offer: Offer;
-  context: 'place' | 'offer';
+  variantContext: 'place' | 'offer';
   variant: 'small' | 'large';
 }
 
-function BookmarksButtonComponent({ offer, context, variant }:
+function BookmarksButtonComponent({ offer, variantContext, variant }:
   BookmarksButtonProps): JSX.Element {
   const size = configButton[variant];
   const dispatch = useAppDispatch();
@@ -38,13 +39,26 @@ function BookmarksButtonComponent({ offer, context, variant }:
     dispatch(postFavoriteAction({ offerId: offer.id, status }));
   };
 
-  const baseClass = context === 'offer' ? 'offer__bookmark-button' : 'place-card__bookmark-button';
-  const iconClass = context === 'offer' ? 'offer__bookmark-icon' : 'place-card__bookmark-icon';
-  const activeModifier = offer.isFavorite ? `${baseClass}--active` : '';
+  const baseClass = variantContext === 'offer' ?
+    'offer__bookmark-button'
+    :
+    'place-card__bookmark-button';
+  const iconClass = variantContext === 'offer' ?
+    'offer__bookmark-icon'
+    :
+    'place-card__bookmark-icon';
+  const activeModifier = offer.isFavorite ?
+    `${baseClass}--active`
+    :
+    '';
   const buttonClassName = `${baseClass} ${activeModifier} button`;
 
   return (
-    <button className={buttonClassName} type="button" onClick={handleButtonClick}>
+    <button
+      className={buttonClassName}
+      type="button"
+      onClick={handleButtonClick}
+    >
       <svg
         className={iconClass}
         width={size.imageWidth}
@@ -57,4 +71,4 @@ function BookmarksButtonComponent({ offer, context, variant }:
   );
 }
 
-export const BookmarksButton = React.memo(BookmarksButtonComponent);
+export const BookmarksButton = memo(BookmarksButtonComponent);

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { PlacesSorting } from '../../consts/consts';
 
 type SortListProps = {
@@ -6,22 +7,23 @@ type SortListProps = {
   isOpen?: boolean;
 }
 
-function SortList({ selected, onChange, isOpen = false }: SortListProps): JSX.Element {
+function SortListComponent({ selected, onChange, isOpen = false }: SortListProps): JSX.Element {
   const openedClass = isOpen ? ' places__options--opened' : '';
   return (
-    <ul className={`places__options places__options--custom${openedClass}`} >
+    <ul className={`places__options places__options--custom ${openedClass}`} >
       {
-        Object.values(PlacesSorting).map((place) => {
-          const isActive = place === selected;
+        Object.values(PlacesSorting).map((option) => {
+          const isActive = option === selected;
+          const optionClassName = `places__option ${isActive ? 'places__option--active'
+            : ''}`;
           return (
             <li
-              className={`places__option ${isActive ? 'places__option--active'
-                : ''}`}
+              className={optionClassName}
               tabIndex={0}
-              key={place}
-              onClick={() => onChange(place)}
+              key={option}
+              onClick={() => onChange(option)}
             >
-              {place}
+              {option}
             </li>
           );
         })
@@ -30,4 +32,4 @@ function SortList({ selected, onChange, isOpen = false }: SortListProps): JSX.El
   );
 }
 
-export default SortList;
+export const SortList = memo(SortListComponent);

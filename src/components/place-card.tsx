@@ -1,7 +1,8 @@
+import { memo } from 'react';
+import { Link } from 'react-router-dom';
+
 import { Offer } from '../types/offer';
 import { getRating } from '../utils/utils';
-import { Link } from 'react-router-dom';
-import React from 'react';
 import { BookmarksButton } from './bookmarks-button';
 
 const configCard = {
@@ -65,7 +66,7 @@ function PlaceCardComponent({ data, variant, onPlaceCardHover }: PlaceCard): JSX
           </div>
           <BookmarksButton
             offer={data}
-            context='place'
+            variantContext='place'
             variant='small'
           />
         </div >
@@ -84,4 +85,4 @@ function PlaceCardComponent({ data, variant, onPlaceCardHover }: PlaceCard): JSX
   );
 }
 
-export const PlaceCard = React.memo(PlaceCardComponent);
+export const PlaceCard = memo(PlaceCardComponent);

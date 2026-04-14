@@ -32,7 +32,7 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const CITIES: City[] = [
+export const cities: City[] = [
   {
     name: 'Paris',
     location: {
@@ -99,12 +99,5 @@ export const RatingLimits = {
 export const MIN_COUNT = 1;
 export const COUNT_NEARBY_OFFERS = 3;
 export const MAX_IMAGES_COUNT = 6;
-
-
-export const Setting = {
-  cardsCount: 5,
-};
-
 export const MAX_REVIEW_COUNT = 10;
-
 export const TIMEOUT_SHOW_ERROR = 2000;

@@ -1,14 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Offer } from '../../types/offer';
 import { AxiosInstance } from 'axios';
-import { AuthorizationStatus, TIMEOUT_SHOW_ERROR, APIRoute } from '../../consts/consts';
-import { AuthData } from '../../types/auth-data';
 import { dropToken, saveToken } from '../../services/token';
+
+import { Offer } from '../../types/offer';
+import { AuthData } from '../../types/auth-data';
+import { Review } from '../../types/review';
 import { AuthInfo } from '../../types/auth-info';
+
 import { setOfferNotFound } from '../current-offer-slice/current-offer-slice';
 import { setUser, setAuthorizationStatus } from '../user-slice/user-slice';
-import { Review } from '../../types/review';
 import { setError } from '../offers-slice/offers-slice';
+
+import { AuthorizationStatus, TIMEOUT_SHOW_ERROR, APIRoute } from '../../consts/consts';
 
 export const fetchAllOffers = createAsyncThunk<
   Offer[],

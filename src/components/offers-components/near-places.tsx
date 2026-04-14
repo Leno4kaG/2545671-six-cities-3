@@ -1,6 +1,6 @@
-import { PlaceCard } from '../place-card';
-import React from 'react';
+import { memo } from 'react';
 import { Offer } from '../../types/offer';
+import { PlaceCard } from '../place-card';
 
 type NearPlacesProps = {
   offers: Offer[];
@@ -24,4 +24,4 @@ function NearPlacesComponent({ offers }: NearPlacesProps): JSX.Element {
   );
 }
 
-export const NearPlaces = React.memo(NearPlacesComponent);
+export const NearPlaces = memo(NearPlacesComponent);
