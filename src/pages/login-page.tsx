@@ -1,20 +1,26 @@
 import { Helmet } from 'react-helmet-async';
-
 import { Header } from '../components/header';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { setError } from '../store/offers-slice/offers-slice';
-
-
-import { Navigate } from 'react-router-dom';
+import { setError, setCity } from '../store/offers-slice/offers-slice';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { loginAction } from '../store/api-action/api-action';
-import { AuthorizationStatus, AppRoute } from '../consts/consts';
+import { AuthorizationStatus, AppRoute, CITIES } from '../consts/consts';
+import { getRandomInteger } from '../utils/utils';
+
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const authorizationStatus = useAppSelector(
+    (state) => state.userReducer.authorizationStatus
+  );
+
+  const [quickCity] = useState(() => CITIES[getRandomInteger(0, CITIES.length - 1)]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -39,9 +45,14 @@ function LoginPage(): JSX.Element {
     }));
   };
 
-  const authorizationStatus = useAppSelector(
-    (state) => state.userReducer.authorizationStatus
-  );
+  const handleQuickCityClick = (evt: React.MouseEvent) => {
+    evt.preventDefault();
+    if (!quickCity) {
+      return;
+    }
+    dispatch(setCity(quickCity));
+    navigate(AppRoute.Main);
+  };
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return <Navigate to={AppRoute.Main} />;
@@ -90,11 +101,17 @@ function LoginPage(): JSX.Element {
               </button>
             </form>
           </section>
+
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link
+                className="locations__item-link"
+                to="#"
+                onClick={handleQuickCityClick}
+                data-testid="quick-city-link"
+              >
+                <span>{quickCity?.name}</span>
+              </Link>
             </div>
           </section>
         </div>

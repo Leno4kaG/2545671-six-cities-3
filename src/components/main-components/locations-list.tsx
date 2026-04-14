@@ -8,15 +8,18 @@ import { setCity } from '../../store/offers-slice/offers-slice';
 function LocationsListComponent(): JSX.Element {
   const dispatch = useAppDispatch();
   const activeCityName = useAppSelector((state) => state.offerReducer.city.name);
+
   return (
     <ul className="locations__list tabs__list">
+
       {CITIES.map((city) => {
-        const isActiveTab = activeCityName === city.name;
+        const activeClass = activeCityName === city.name ? ' tabs__item--active' : '';
+
         return (
           <li className="locations__item" key={city.name}>
             <Link
               to="#"
-              className={`locations__item-link tabs__item ${isActiveTab ? 'tabs__item--active' : ''}`}
+              className={`locations__item-link tabs__item ${activeClass}`}
               onClick={(evt) => {
                 evt.preventDefault();
                 dispatch(setCity(city));
@@ -27,7 +30,7 @@ function LocationsListComponent(): JSX.Element {
           </li>
         );
       })}
-    </ul>
+    </ul >
   );
 }
 

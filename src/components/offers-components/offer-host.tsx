@@ -4,12 +4,15 @@ import React from 'react';
 type OfferHostProps = Pick<Offer, 'host' | 'description'>;
 
 function OfferHostComponent({ host, description }: OfferHostProps): JSX.Element {
-
+  const avatarWrapperClass = `offer__avatar-wrapper user__avatar-wrapper ${host.isPro ?
+    'offer__avatar-wrapper--pro'
+    :
+    ''}`;
   return (
     <div className="offer__host">
       <h2 className="offer__host-title">Meet the host</h2>
       <div className="offer__host-user user">
-        <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+        <div className={avatarWrapperClass}>
           <img
             className="offer__avatar user__avatar"
             src={host.avatarUrl}
@@ -21,9 +24,9 @@ function OfferHostComponent({ host, description }: OfferHostProps): JSX.Element 
         <span className="offer__user-name">
           {host.name}
         </span>
-        <span className="offer__user-status">
-          {host.isPro}
-        </span>
+        {host.isPro && (
+          <span className="offer__user-status">Pro</span>
+        )}
       </div>
       <div className="offer__description">
         <p className="offer__text">

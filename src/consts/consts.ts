@@ -83,8 +83,6 @@ export const CITIES: City[] = [
   }
 ];
 
-export const DEFAULT_TYPE = 'Paris';
-
 export const RATING = [
   { value: 5, label: 'perfect' },
   { value: 4, label: 'good' },
