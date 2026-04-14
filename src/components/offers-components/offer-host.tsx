@@ -1,13 +1,11 @@
+import { memo } from 'react';
 import { Offer } from '../../types/offer';
-import React from 'react';
 
 type OfferHostProps = Pick<Offer, 'host' | 'description'>;
 
 function OfferHostComponent({ host, description }: OfferHostProps): JSX.Element {
   const avatarWrapperClass = `offer__avatar-wrapper user__avatar-wrapper ${host.isPro ?
-    'offer__avatar-wrapper--pro'
-    :
-    ''}`;
+    'offer__avatar-wrapper--pro' : ''}`;
   return (
     <div className="offer__host">
       <h2 className="offer__host-title">Meet the host</h2>
@@ -37,4 +35,4 @@ function OfferHostComponent({ host, description }: OfferHostProps): JSX.Element 
   );
 }
 
-export const OfferHost = React.memo(OfferHostComponent);
+export const OfferHost = memo(OfferHostComponent);

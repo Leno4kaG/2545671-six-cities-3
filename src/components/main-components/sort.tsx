@@ -1,7 +1,7 @@
-import SortList from './sort-list';
-import { PlacesSorting } from '../../consts/consts';
-
 import { useState } from 'react';
+
+import { SortList } from './sort-list';
+import { PlacesSorting } from '../../consts/consts';
 
 type SortProps = {
   selected: PlacesSorting;
@@ -40,7 +40,11 @@ function Sort({ selected, onChange }: SortProps): JSX.Element {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <SortList selected={selected} onChange={handleSortChange} isOpen={isSortOpen} />
+      <SortList
+        selected={selected}
+        onChange={handleSortChange}
+        isOpen={isSortOpen}
+      />
     </form>
   );
 }

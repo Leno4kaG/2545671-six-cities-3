@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { City, Offer } from '../../types/offer';
 import { fetchAllOffers, postFavoriteAction } from '../api-action/api-action';
-import { CITIES } from '../../consts/consts';
+import { cities } from '../../consts/consts';
 
 
 type OffersState = {
@@ -13,7 +13,7 @@ type OffersState = {
 }
 
 const initialState: OffersState = {
-  city: CITIES[0],
+  city: cities[0],
   offers: [],
   isLoading: false,
   error: null,

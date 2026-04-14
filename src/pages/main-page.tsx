@@ -14,7 +14,6 @@ import { PlacesSorting, AuthorizationStatus } from '../consts/consts';
 import { createFilteredAndSortedSelector } from '../selectors/offers-selectors';
 import { fetchAllOffers } from '../store/api-action/api-action';
 
-
 function MainPage(): JSX.Element {
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
@@ -50,14 +49,20 @@ function MainPage(): JSX.Element {
       </div>
     );
   }
+  const count = sortedOffers.length;
 
-  const isOffersAvailable = sortedOffers.length > 0;
+  const isOffersAvailable = count > 0;
 
-  const mainClassName = `page__main page__main--index ${sortedOffers.length === 0 ?
+  const mainClassName = `page__main page__main--index ${count === 0 ?
     'page__main--index-empty' : ''}`;
 
+  const places = count === 1 ?
+    `${count} place to stay in ${selectedCity.name}`
+    :
+    `${count} places to stay in ${selectedCity.name}`;
+
   return (
-    <div className="page page--gray page--main" data-testid="page-main">
+    <div className="page page--gray page--main" data-testid="page-main" >
       <Helmet><title>6 cities</title></Helmet>
       <Header />
       <main
@@ -70,7 +75,7 @@ function MainPage(): JSX.Element {
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{sortedOffers.length} places to stay in {selectedCity.name}</b>
+                <b className="places__found">{places}</b>
                 <Sort selected={selectedSorting} onChange={setSelectedSorting} />
                 < OfferList
                   offers={sortedOffers}

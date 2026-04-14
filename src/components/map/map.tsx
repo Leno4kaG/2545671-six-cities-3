@@ -76,7 +76,9 @@ function Map({ location, offers, className, activeOfferId, allowHover = true }: 
   return (
     <div
       ref={mapRef}
-      style={{ height: '500px' }}
+      style={{
+        height: '100vh'
+      }}
       className={className}
       data-active-offer-id={activeOfferId ?? ''}
     >

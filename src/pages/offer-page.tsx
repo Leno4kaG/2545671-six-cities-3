@@ -84,7 +84,10 @@ function OfferPage() {
                 host={currentOffer.host}
                 description={currentOffer.description}
               />
-              <OfferReviews reviews={reviews} isAuth={authStatus === AuthorizationStatus.Auth} />
+              <OfferReviews
+                reviews={reviews}
+                isAuth={authStatus === AuthorizationStatus.Auth}
+              />
             </div>
           </div>
           <Map

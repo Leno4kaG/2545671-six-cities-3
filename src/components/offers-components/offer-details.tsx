@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { Offer } from '../../types/offer';
 import { getRating, capitalizeFirst } from '../../utils/utils';
 import { MIN_COUNT } from '../../consts/consts';
 import { BookmarksButton } from '../bookmarks-button';
-import React from 'react';
+
 
 type OfferDetails = {
   data: Offer;
@@ -25,7 +26,7 @@ function OfferDetailsComponent({ data }: OfferDetails) {
         </h1>
         <BookmarksButton
           offer={data}
-          context='offer'
+          variantContext='offer'
           variant='large'
         />
       </div>
@@ -57,4 +58,4 @@ function OfferDetailsComponent({ data }: OfferDetails) {
   );
 }
 
-export const OfferDetails = React.memo(OfferDetailsComponent);
+export const OfferDetails = memo(OfferDetailsComponent);

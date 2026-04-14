@@ -73,7 +73,8 @@ describe('Favorites Slice', () => {
     const state = { favorites: [existing, other], isLoading: true, favoriteError: null };
 
     const payload: Offer = { ...existing, isFavorite: false };
-    const next = favoritesReducer(state, postFavoriteAction.fulfilled(payload, '', { offerId: payload.id, status: 0 }));
+    const next = favoritesReducer(state, postFavoriteAction.fulfilled(
+      payload, '', { offerId: payload.id, status: 0 }));
 
     expect(next.isLoading).toBe(false);
     expect(next.favoriteError).toBeNull();
@@ -82,13 +83,15 @@ describe('Favorites Slice', () => {
     expect(next.favorites).not.toContainEqual(existing);
   });
 
-  it('handles postFavoriteAction.rejected — sets isLoading false and favoriteError from action.error.message', () => {
-    const state = { favorites: mockOffers, isLoading: true, favoriteError: null };
+  it('handles postFavoriteAction.rejected — sets isLoading false and favoriteError from action.error.message',
+    () => {
+      const state = { favorites: mockOffers, isLoading: true, favoriteError: null };
 
-    const errorMessage = new Error('Network Error');
-    const next = favoritesReducer(state, postFavoriteAction.rejected(errorMessage, '', { offerId: '1', status: 1 },));
+      const errorMessage = new Error('Network Error');
+      const next = favoritesReducer(state, postFavoriteAction.rejected(
+        errorMessage, '', { offerId: '1', status: 1 },));
 
-    expect(next.isLoading).toBe(false);
-    expect(next.favoriteError).toBe('Network Error');
-  });
+      expect(next.isLoading).toBe(false);
+      expect(next.favoriteError).toBe('Network Error');
+    });
 });

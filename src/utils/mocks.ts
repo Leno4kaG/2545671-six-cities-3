@@ -2,7 +2,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { createAPI } from '../services/api';
 import { State } from '../types/state';
-import { AuthorizationStatus, CITIES } from '../consts/consts';
+import { AuthorizationStatus, cities } from '../consts/consts';
 
 export type AppThunkDispatch = ThunkDispatch<State,
   ReturnType<typeof createAPI>, Action>;
@@ -11,7 +11,7 @@ export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({
 
 export const makeFakeState = (initialState?: Partial<State>): State => ({
   offerReducer: {
-    city: CITIES[0],
+    city: cities[0],
     offers: [],
     isLoading: false,
     error: null,
